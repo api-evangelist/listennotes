@@ -1,0 +1,127 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Listen Notes
+providerId: listennotes
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Podcasts
+- Podcast Search
+- Search
+- Plans
+- Pricing
+description: >-
+  The Listen API is sold on a request-based model with three published plans.
+  FREE is $0/month with a small monthly request allowance and is suspended when
+  the allowance is exceeded. PRO is a paid monthly plan with an included request
+  allowance and metered overage priced per additional 1,000 requests, plus wider
+  search-result depth and higher rate limits. ENTERPRISE is a custom, annually
+  billed plan with negotiated volume, the deepest search-result depth, higher
+  rate limits, server-side caching permission, and flexible terms of use. All
+  plans authenticate with an X-ListenAPI-Key header.
+notes: >-
+  Prices and allowances reflect the public Listen API pricing page at the time of
+  research and can change - verify current numbers at
+  https://www.listennotes.com/api/pricing/ during reconciliation. Overage is
+  tiered: it starts around $1.60 per extra 1,000 requests on PRO and steps down at
+  higher volume.
+sources:
+- https://www.listennotes.com/api/pricing/
+- https://www.listennotes.com/api/docs/
+- https://www.listennotes.com/api/
+plans:
+- id: listennotes-free
+  name: FREE
+  type: free
+  description: >-
+    Free tier for evaluation and low-volume use, with a small monthly request
+    allowance. Access is suspended once the allowance is exceeded. Search depth is
+    limited to 30 results (offset < 30) per query.
+  entries:
+  - label: Included Requests
+    name: free_requests
+    type: usage
+    metric: requests
+    limit: 300
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '0.00'
+    userMultiplied: false
+  elements:
+  - name: All API Endpoints
+  - name: Search Depth Up To 30 Results
+  - name: Mock Server Access
+- id: listennotes-pro
+  name: PRO
+  type: paid
+  description: >-
+    Paid monthly plan with an included request allowance and metered overage per
+    additional 1,000 requests. Search depth up to 300 results (offset < 300) per
+    query, with documented rate limits of 2 requests/second and 20 requests/minute.
+  entries:
+  - label: Base Monthly Fee
+    name: pro_base_fee
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '200.00'
+    userMultiplied: false
+  - label: Included Requests
+    name: pro_included_requests
+    type: usage
+    metric: requests
+    limit: 5000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included in base fee
+    userMultiplied: false
+  - label: Overage Requests
+    name: pro_overage_requests
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000
+    price: from $1.60 per 1,000 (tiered down to ~$1.10 per 1,000 at higher volume)
+    userMultiplied: false
+  elements:
+  - name: All API Endpoints
+  - name: Search Depth Up To 300 Results
+  - name: Rate Limit 2 req/s and 20 req/min
+  - name: Email Support
+- id: listennotes-enterprise
+  name: ENTERPRISE
+  type: enterprise
+  description: >-
+    Custom, annually billed plan for high-volume production use. Negotiated request
+    volume, the deepest search-result depth (up to 10,000 results per query), higher
+    rate limits, permission for server-side caching, and flexible API terms of use.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise_agreement
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Request Volume
+  - name: Search Depth Up To 10,000 Results
+  - name: Higher Rate Limits
+  - name: Server-Side Caching Permission
+  - name: Flexible Terms of Use
+  - name: Priority Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

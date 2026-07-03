@@ -1,0 +1,86 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Listen Notes
+providerId: listennotes
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Podcasts
+- Podcast Search
+- Search
+- Rate Limiting
+- Quotas
+description: >-
+  The Listen API governs usage in two ways: a monthly request quota tied to your
+  plan (FREE, PRO, ENTERPRISE), and per-request rate limits plus a
+  search-result-depth cap. The FREE plan is bounded by its monthly quota and a
+  30-result search-depth cap. The PRO plan documents rate limits of about 2
+  requests/second and 20 requests/minute and a 300-result search-depth cap.
+  ENTERPRISE offers higher rate limits and up to 10,000 results per query.
+  Exceeding limits returns HTTP 429.
+notes: >-
+  Numbers reflect the public pricing/docs pages at the time of research and can
+  change - verify at https://www.listennotes.com/api/pricing/ during
+  reconciliation. The 2 req/s and 20 req/min figures are the documented PRO-tier
+  limits; ENTERPRISE limits are negotiated and higher.
+sources:
+- https://www.listennotes.com/api/pricing/
+- https://www.listennotes.com/api/docs/
+- https://www.listennotes.com/api/
+responseCodes:
+  throttled: 429
+limits:
+- name: Monthly Request Quota (FREE)
+  scope: account
+  metric: requests
+  limit: 300 per month
+  notes: FREE plan allowance; access is suspended when exceeded.
+- name: Monthly Request Quota (PRO)
+  scope: account
+  metric: requests
+  limit: 5000 included per month, metered overage beyond
+  notes: Additional requests billed per 1,000; no hard cap.
+- name: Requests Per Second (PRO)
+  scope: account
+  metric: requests
+  limit: ~2 per second
+  notes: Documented PRO-tier per-second rate limit.
+- name: Requests Per Minute (PRO)
+  scope: account
+  metric: requests
+  limit: ~20 per minute
+  notes: Documented PRO-tier per-minute rate limit.
+- name: Search Result Depth (FREE)
+  scope: request
+  metric: results
+  limit: 30 (offset < 30)
+  notes: Maximum reachable search results per query on FREE.
+- name: Search Result Depth (PRO)
+  scope: request
+  metric: results
+  limit: 300 (offset < 300)
+  notes: Maximum reachable search results per query on PRO.
+- name: Search Result Depth (ENTERPRISE)
+  scope: request
+  metric: results
+  limit: 10000 (offset < 10000)
+  notes: Maximum reachable search results per query on ENTERPRISE.
+- name: Batch Fetch Size
+  scope: request
+  metric: ids
+  limit: up to 10 per batch request
+  notes: POST /podcasts and POST /episodes accept up to ~10 comma-separated ids.
+policies:
+- name: Quota Suspension
+  description: On the FREE plan, API access is suspended once the monthly request allowance is exceeded.
+- name: Metered Overage
+  description: On the PRO plan, requests beyond the included allowance are billed per additional 1,000 requests.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on HTTP 429 responses.
+- name: Server-Side Caching
+  description: Caching API responses server-side is permitted under ENTERPRISE terms; verify terms of use for other plans.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

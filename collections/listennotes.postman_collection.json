@@ -1,0 +1,303 @@
+{
+  "info": {
+    "name": "Listen API (Listen Notes)",
+    "description": "The Listen API from Listen Notes - a simple, no-nonsense podcast search, directory, and insights REST API. Full-text search podcasts and episodes, fetch metadata, browse best-podcasts charts and curated lists, power typeahead, get recommendations, and pull audience insights. Base URL: https://listen-api.listennotes.com/api/v2. All requests require an X-ListenAPI-Key header.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "X-ListenAPI-Key", "type": "string" },
+      { "key": "value", "value": "{{apiKey}}", "type": "string" },
+      { "key": "in", "value": "header", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://listen-api.listennotes.com/api/v2", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Full-text search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/search?q=star wars&type=episode", "host": ["{{baseUrl}}"], "path": ["search"], "query": [ { "key": "q", "value": "star wars" }, { "key": "type", "value": "episode" } ] },
+            "description": "Full-text search on episodes, podcasts, or curated lists by people, places, or topics."
+          }
+        },
+        {
+          "name": "Typeahead search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/typeahead?q=star&show_podcasts=1", "host": ["{{baseUrl}}"], "path": ["typeahead"], "query": [ { "key": "q", "value": "star" }, { "key": "show_podcasts", "value": "1" } ] },
+            "description": "Suggest search terms, podcasts, and genres for autocomplete."
+          }
+        },
+        {
+          "name": "Search episode titles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/search_episode_titles?q=star wars", "host": ["{{baseUrl}}"], "path": ["search_episode_titles"], "query": [ { "key": "q", "value": "star wars" } ] },
+            "description": "Find individual episodes by searching their titles."
+          }
+        },
+        {
+          "name": "Trending searches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/trending_searches", "host": ["{{baseUrl}}"], "path": ["trending_searches"] },
+            "description": "Fetch trending search terms."
+          }
+        },
+        {
+          "name": "Related searches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/related_searches?q=star wars", "host": ["{{baseUrl}}"], "path": ["related_searches"], "query": [ { "key": "q", "value": "star wars" } ] },
+            "description": "Fetch related search terms for a query."
+          }
+        },
+        {
+          "name": "Spell check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/spellcheck?q=star warz", "host": ["{{baseUrl}}"], "path": ["spellcheck"], "query": [ { "key": "q", "value": "star warz" } ] },
+            "description": "Suggest a spell-corrected version of a search term."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Podcasts",
+      "item": [
+        {
+          "name": "Get a podcast by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/podcasts/:id", "host": ["{{baseUrl}}"], "path": ["podcasts", ":id"], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Fetch detailed metadata and episodes for a podcast by id."
+          }
+        },
+        {
+          "name": "Batch fetch podcasts",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/x-www-form-urlencoded" } ],
+            "body": { "mode": "urlencoded", "urlencoded": [ { "key": "ids", "value": "" } ] },
+            "url": { "raw": "{{baseUrl}}/podcasts", "host": ["{{baseUrl}}"], "path": ["podcasts"] },
+            "description": "Batch fetch basic metadata for up to 10 podcasts by id."
+          }
+        },
+        {
+          "name": "Just Listen (random episode)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/just_listen", "host": ["{{baseUrl}}"], "path": ["just_listen"] },
+            "description": "Fetch a random podcast episode."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Episodes",
+      "item": [
+        {
+          "name": "Get an episode by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/episodes/:id", "host": ["{{baseUrl}}"], "path": ["episodes", ":id"], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Fetch detailed metadata for an episode by id."
+          }
+        },
+        {
+          "name": "Batch fetch episodes",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/x-www-form-urlencoded" } ],
+            "body": { "mode": "urlencoded", "urlencoded": [ { "key": "ids", "value": "" } ] },
+            "url": { "raw": "{{baseUrl}}/episodes", "host": ["{{baseUrl}}"], "path": ["episodes"] },
+            "description": "Batch fetch basic metadata for up to 10 episodes by id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Best Podcasts & Curated Lists",
+      "item": [
+        {
+          "name": "Best podcasts by genre",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/best_podcasts?genre_id=93&region=us", "host": ["{{baseUrl}}"], "path": ["best_podcasts"], "query": [ { "key": "genre_id", "value": "93" }, { "key": "region", "value": "us" } ] },
+            "description": "Fetch best-podcasts charts by genre and region."
+          }
+        },
+        {
+          "name": "Fetch curated lists",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/curated_podcasts?page=1", "host": ["{{baseUrl}}"], "path": ["curated_podcasts"], "query": [ { "key": "page", "value": "1" } ] },
+            "description": "Fetch curated lists of podcasts."
+          }
+        },
+        {
+          "name": "Get a curated list by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/curated_podcasts/:id", "host": ["{{baseUrl}}"], "path": ["curated_podcasts", ":id"], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Fetch a curated list of podcasts by id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Genres, Regions & Languages",
+      "item": [
+        {
+          "name": "Fetch genres",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/genres?top_level_only=0", "host": ["{{baseUrl}}"], "path": ["genres"], "query": [ { "key": "top_level_only", "value": "0" } ] },
+            "description": "Fetch the podcast genre taxonomy."
+          }
+        },
+        {
+          "name": "Fetch regions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/regions", "host": ["{{baseUrl}}"], "path": ["regions"] },
+            "description": "Fetch supported countries/regions for best-podcasts charts."
+          }
+        },
+        {
+          "name": "Fetch languages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/languages", "host": ["{{baseUrl}}"], "path": ["languages"] },
+            "description": "Fetch supported languages for podcasts."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recommendations",
+      "item": [
+        {
+          "name": "Podcast recommendations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/podcasts/:id/recommendations", "host": ["{{baseUrl}}"], "path": ["podcasts", ":id", "recommendations"], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Fetch recommendations for a podcast."
+          }
+        },
+        {
+          "name": "Episode recommendations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/episodes/:id/recommendations", "host": ["{{baseUrl}}"], "path": ["episodes", ":id", "recommendations"], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Fetch recommendations for an episode."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Playlists",
+      "item": [
+        {
+          "name": "Fetch your playlists",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/playlists?page=1", "host": ["{{baseUrl}}"], "path": ["playlists"], "query": [ { "key": "page", "value": "1" } ] },
+            "description": "Fetch a list of your Listen Later playlists."
+          }
+        },
+        {
+          "name": "Get a playlist by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/playlists/:id", "host": ["{{baseUrl}}"], "path": ["playlists", ":id"], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Fetch a playlist's info and items."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Insights",
+      "item": [
+        {
+          "name": "Podcast audience demographics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/podcasts/:id/audience", "host": ["{{baseUrl}}"], "path": ["podcasts", ":id", "audience"], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Fetch audience demographics for a podcast."
+          }
+        },
+        {
+          "name": "Podcasts by publisher domain",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/podcasts/domains/:domain_name?page=1", "host": ["{{baseUrl}}"], "path": ["podcasts", "domains", ":domain_name"], "variable": [ { "key": "domain_name", "value": "nytimes.com" } ], "query": [ { "key": "page", "value": "1" } ] },
+            "description": "Fetch podcasts associated with a publisher's domain name."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Podcaster",
+      "item": [
+        {
+          "name": "Submit a podcast",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/x-www-form-urlencoded" } ],
+            "body": { "mode": "urlencoded", "urlencoded": [ { "key": "rss", "value": "" }, { "key": "email", "value": "" } ] },
+            "url": { "raw": "{{baseUrl}}/podcasts/submit", "host": ["{{baseUrl}}"], "path": ["podcasts", "submit"] },
+            "description": "Submit a podcast to the Listen Notes database by RSS URL."
+          }
+        },
+        {
+          "name": "Refresh a podcast RSS feed",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/podcasts/:id/rss", "host": ["{{baseUrl}}"], "path": ["podcasts", ":id", "rss"], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Force a refresh of a podcast's RSS feed."
+          }
+        },
+        {
+          "name": "Request to delete a podcast",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/podcasts/:id?reason=", "host": ["{{baseUrl}}"], "path": ["podcasts", ":id"], "variable": [ { "key": "id", "value": "" } ], "query": [ { "key": "reason", "value": "" } ] },
+            "description": "Request removal of a podcast from the database."
+          }
+        }
+      ]
+    }
+  ]
+}

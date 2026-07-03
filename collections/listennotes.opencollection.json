@@ -1,0 +1,194 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Listen API (Listen Notes)",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": {
+        "key": "X-ListenAPI-Key",
+        "value": "{{apiKey}}",
+        "in": "header"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Search", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Full-text search", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/search", "params": [ { "name": "q", "value": "star wars", "type": "query" }, { "name": "type", "value": "episode", "type": "query" } ] },
+          "docs": "Full-text search on episodes, podcasts, or curated lists by people, places, or topics."
+        },
+        {
+          "info": { "name": "Typeahead search", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/typeahead", "params": [ { "name": "q", "value": "star", "type": "query" }, { "name": "show_podcasts", "value": "1", "type": "query" } ] },
+          "docs": "Suggest search terms, podcasts, and genres for autocomplete."
+        },
+        {
+          "info": { "name": "Search episode titles", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/search_episode_titles", "params": [ { "name": "q", "value": "star wars", "type": "query" } ] },
+          "docs": "Find individual episodes by searching their titles."
+        },
+        {
+          "info": { "name": "Trending searches", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/trending_searches" },
+          "docs": "Fetch trending search terms."
+        },
+        {
+          "info": { "name": "Related searches", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/related_searches", "params": [ { "name": "q", "value": "star wars", "type": "query" } ] },
+          "docs": "Fetch related search terms for a query."
+        },
+        {
+          "info": { "name": "Spell check", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/spellcheck", "params": [ { "name": "q", "value": "star warz", "type": "query" } ] },
+          "docs": "Suggest a spell-corrected version of a search term."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Podcasts", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get a podcast by id", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/podcasts/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "Podcast id." } ] },
+          "docs": "Fetch detailed metadata and episodes for a podcast by id."
+        },
+        {
+          "info": { "name": "Batch fetch podcasts", "type": "http" },
+          "http": { "method": "POST", "url": "https://listen-api.listennotes.com/api/v2/podcasts", "body": { "type": "urlencoded", "data": "ids=" } },
+          "docs": "Batch fetch basic metadata for up to 10 podcasts by id."
+        },
+        {
+          "info": { "name": "Just Listen (random episode)", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/just_listen" },
+          "docs": "Fetch a random podcast episode."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Episodes", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get an episode by id", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/episodes/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "Episode id." } ] },
+          "docs": "Fetch detailed metadata for an episode by id."
+        },
+        {
+          "info": { "name": "Batch fetch episodes", "type": "http" },
+          "http": { "method": "POST", "url": "https://listen-api.listennotes.com/api/v2/episodes", "body": { "type": "urlencoded", "data": "ids=" } },
+          "docs": "Batch fetch basic metadata for up to 10 episodes by id."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Best Podcasts & Curated Lists", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Best podcasts by genre", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/best_podcasts", "params": [ { "name": "genre_id", "value": "93", "type": "query" }, { "name": "region", "value": "us", "type": "query" } ] },
+          "docs": "Fetch best-podcasts charts by genre and region."
+        },
+        {
+          "info": { "name": "Fetch curated lists", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/curated_podcasts", "params": [ { "name": "page", "value": "1", "type": "query" } ] },
+          "docs": "Fetch curated lists of podcasts."
+        },
+        {
+          "info": { "name": "Get a curated list by id", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/curated_podcasts/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "Curated list id." } ] },
+          "docs": "Fetch a curated list of podcasts by id."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Genres, Regions & Languages", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Fetch genres", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/genres", "params": [ { "name": "top_level_only", "value": "0", "type": "query" } ] },
+          "docs": "Fetch the podcast genre taxonomy."
+        },
+        {
+          "info": { "name": "Fetch regions", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/regions" },
+          "docs": "Fetch supported countries/regions for best-podcasts charts."
+        },
+        {
+          "info": { "name": "Fetch languages", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/languages" },
+          "docs": "Fetch supported languages for podcasts."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Recommendations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Podcast recommendations", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/podcasts/:id/recommendations", "params": [ { "name": "id", "value": "", "type": "path", "description": "Podcast id." } ] },
+          "docs": "Fetch recommendations for a podcast."
+        },
+        {
+          "info": { "name": "Episode recommendations", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/episodes/:id/recommendations", "params": [ { "name": "id", "value": "", "type": "path", "description": "Episode id." } ] },
+          "docs": "Fetch recommendations for an episode."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Playlists", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Fetch your playlists", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/playlists", "params": [ { "name": "page", "value": "1", "type": "query" } ] },
+          "docs": "Fetch a list of your Listen Later playlists."
+        },
+        {
+          "info": { "name": "Get a playlist by id", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/playlists/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "Playlist id." } ] },
+          "docs": "Fetch a playlist's info and items."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Insights", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Podcast audience demographics", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/podcasts/:id/audience", "params": [ { "name": "id", "value": "", "type": "path", "description": "Podcast id." } ] },
+          "docs": "Fetch audience demographics for a podcast."
+        },
+        {
+          "info": { "name": "Podcasts by publisher domain", "type": "http" },
+          "http": { "method": "GET", "url": "https://listen-api.listennotes.com/api/v2/podcasts/domains/:domain_name", "params": [ { "name": "domain_name", "value": "nytimes.com", "type": "path", "description": "Publisher domain name." }, { "name": "page", "value": "1", "type": "query" } ] },
+          "docs": "Fetch podcasts associated with a publisher's domain name."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Podcaster", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Submit a podcast", "type": "http" },
+          "http": { "method": "POST", "url": "https://listen-api.listennotes.com/api/v2/podcasts/submit", "body": { "type": "urlencoded", "data": "rss=&email=" } },
+          "docs": "Submit a podcast to the Listen Notes database by RSS URL."
+        },
+        {
+          "info": { "name": "Refresh a podcast RSS feed", "type": "http" },
+          "http": { "method": "POST", "url": "https://listen-api.listennotes.com/api/v2/podcasts/:id/rss", "params": [ { "name": "id", "value": "", "type": "path", "description": "Podcast id." } ] },
+          "docs": "Force a refresh of a podcast's RSS feed."
+        },
+        {
+          "info": { "name": "Request to delete a podcast", "type": "http" },
+          "http": { "method": "DELETE", "url": "https://listen-api.listennotes.com/api/v2/podcasts/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "Podcast id." }, { "name": "reason", "value": "", "type": "query" } ] },
+          "docs": "Request removal of a podcast from the database."
+        }
+      ]
+    }
+  ]
+}

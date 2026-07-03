@@ -1,0 +1,100 @@
+aid: listennotes
+name: Listen Notes
+review:
+  question: Does Listen Notes expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-03'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. The Listen API is a request/response REST
+    API over HTTPS. Every documented endpoint is a synchronous GET, POST, or
+    DELETE against https://listen-api.listennotes.com/api/v2, authenticated with
+    an X-ListenAPI-Key header. There is no server-push transport (WebSocket or
+    SSE) on Listen Notes' own API to model. Near-real-time behavior (new episodes,
+    refreshed feeds) is surfaced by polling REST endpoints, not by a streaming
+    channel.
+findings:
+  summary: |
+    Listen Notes does not publish a documented public WebSocket API. Listen Notes
+    operates the largest podcast search engine and exposes it as the Listen API -
+    a podcast search, directory, and insights REST API. The API is served at
+    https://listen-api.listennotes.com/api/v2 and authenticated with an
+    X-ListenAPI-Key request header. All 26 documented endpoints are synchronous
+    HTTP request/response (GET, POST, DELETE). Listen Notes publishes an official
+    OpenAPI 3.1.0 specification at
+    https://listen-api.listennotes.com/api/v2/openapi.yaml. No realtime,
+    bidirectional, or streaming WebSocket (ws:// or wss://) endpoint is documented
+    anywhere in the Listen API.
+  openSource: |
+    The Listen API itself is a commercial hosted API (FREE, PRO, ENTERPRISE plans,
+    request-based billing), not an open-source product. Listen Notes publishes
+    open-source client SDKs and code samples (github.com/ListenNotes) - for
+    example Python, JavaScript/Node, Ruby, PHP, and Go wrappers - but the search
+    engine and database behind the API are proprietary and hosted.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://listen-api.listennotes.com/api/v2
+      documented: true
+      note: The entire Listen API. Request/response GET, POST, and DELETE over HTTPS, authenticated with the X-ListenAPI-Key header.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in the Listen API as of the review date.
+    - protocol: Webhook
+      scheme: https
+      documented: false
+      note: No consumer-facing webhook/callback transport is documented on the Listen API.
+  endpointsConfirmedRest:
+    - GET    https://listen-api.listennotes.com/api/v2/search
+    - GET    https://listen-api.listennotes.com/api/v2/typeahead
+    - GET    https://listen-api.listennotes.com/api/v2/search_episode_titles
+    - GET    https://listen-api.listennotes.com/api/v2/trending_searches
+    - GET    https://listen-api.listennotes.com/api/v2/related_searches
+    - GET    https://listen-api.listennotes.com/api/v2/spellcheck
+    - GET    https://listen-api.listennotes.com/api/v2/best_podcasts
+    - GET    https://listen-api.listennotes.com/api/v2/podcasts/{id}
+    - DELETE https://listen-api.listennotes.com/api/v2/podcasts/{id}
+    - POST   https://listen-api.listennotes.com/api/v2/podcasts
+    - GET    https://listen-api.listennotes.com/api/v2/episodes/{id}
+    - POST   https://listen-api.listennotes.com/api/v2/episodes
+    - GET    https://listen-api.listennotes.com/api/v2/curated_podcasts
+    - GET    https://listen-api.listennotes.com/api/v2/curated_podcasts/{id}
+    - GET    https://listen-api.listennotes.com/api/v2/genres
+    - GET    https://listen-api.listennotes.com/api/v2/regions
+    - GET    https://listen-api.listennotes.com/api/v2/languages
+    - GET    https://listen-api.listennotes.com/api/v2/just_listen
+    - GET    https://listen-api.listennotes.com/api/v2/podcasts/{id}/recommendations
+    - GET    https://listen-api.listennotes.com/api/v2/episodes/{id}/recommendations
+    - GET    https://listen-api.listennotes.com/api/v2/playlists
+    - GET    https://listen-api.listennotes.com/api/v2/playlists/{id}
+    - GET    https://listen-api.listennotes.com/api/v2/podcasts/{id}/audience
+    - GET    https://listen-api.listennotes.com/api/v2/podcasts/domains/{domain_name}
+    - POST   https://listen-api.listennotes.com/api/v2/podcasts/submit
+    - POST   https://listen-api.listennotes.com/api/v2/podcasts/{id}/rss
+  endpointsModeled: []
+sources:
+  - url: https://www.listennotes.com/api/docs/
+    type: Documentation
+    note: Official Listen API documentation. All REST; X-ListenAPI-Key header auth. No WebSocket mentioned.
+  - url: https://listen-api.listennotes.com/api/v2/openapi.yaml
+    type: OpenAPI
+    note: Official OpenAPI 3.1.0 spec. 26 REST paths across Search, Directory, Playlist, Podcaster, and Insights tags. No callbacks or WebSocket.
+  - url: https://www.listennotes.com/api/pricing/
+    type: Pricing
+    note: FREE / PRO / ENTERPRISE request-based plans; PRO rate limits ~2 req/s and 20 req/min; search-depth caps 30 / 300 / 10000.
+  - url: https://www.listennotes.com/api/
+    type: ProductPage
+    note: The Best Podcast API for Search, Directory, and Insights.
+  - url: https://github.com/ListenNotes
+    type: SourceCode
+    note: Open-source client SDKs and code samples; the API and database themselves are proprietary and hosted.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. The Listen API is entirely
+    request/response REST over HTTPS, authenticated with the X-ListenAPI-Key
+    header. No AsyncAPI document was created because there is no server-push
+    transport on Listen Notes' own API to model.

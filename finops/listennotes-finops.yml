@@ -1,0 +1,93 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Listen Notes
+providerId: listennotes
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Podcasts
+- Podcast Search
+- Search
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Listen API spend. The Listen API is billed on a request basis
+  across three plans: a FREE plan with a fixed monthly request allowance (no
+  invoice), a PRO plan with a flat monthly base fee, an included request
+  allowance, and metered overage priced per additional 1,000 requests, and a
+  custom ENTERPRISE plan billed annually with negotiated volume. The primary cost
+  driver is API request volume, so cost control centers on minimizing and caching
+  requests and choosing the plan whose included allowance best fits steady-state
+  demand.
+notes: >-
+  Per-unit rates reflect the public pricing page at the time of research and can
+  change - verify at https://www.listennotes.com/api/pricing/ during
+  reconciliation. ENTERPRISE permits server-side caching, which is the main lever
+  for reducing billable request volume.
+sources:
+- https://www.listennotes.com/api/pricing/
+- https://www.listennotes.com/api/docs/
+- https://www.listennotes.com/api/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Listen Notes
+serviceCategory: Search and Media APIs
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Listen API
+  ServiceCategory: Search and Media APIs
+  ProviderName: Listen Notes
+  PublisherName: Listen Notes
+  InvoiceIssuerName: Listen Notes
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: api_requests
+  description: Billable API requests across all endpoints, counted against the plan allowance and metered as overage on PRO.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+  - endpoint
+- name: pro_base_fee
+  description: Flat monthly subscription fee for the PRO plan.
+  unit: months
+  aggregation: sum
+  dimensions:
+  - account
+- name: overage_requests
+  description: Requests beyond the included PRO allowance, billed per additional 1,000.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+principles:
+- name: Visibility
+  description: Track request volume per endpoint and per plan against the monthly allowance to see how close usage is to overage or suspension.
+- name: Allocation
+  description: Attribute request volume to the product feature or team that triggers it (search, directory lookups, insights) so cost maps to internal owners.
+- name: Optimization
+  description: Cache podcast/episode metadata and search results where terms permit, batch fetches via POST /podcasts and POST /episodes, and use typeahead sparingly to cut billable requests; pick the plan whose included allowance matches steady demand.
+- name: Accountability
+  description: Assign an owner for the Listen API key, review monthly request volume against the allowance, and right-size the plan (FREE, PRO, ENTERPRISE) as demand grows.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
