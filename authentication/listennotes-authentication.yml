@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/listennotes-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyHeader
+  type: apiKey
+  in: header
+  parameter: X-ListenAPI-Key
+  description: Your Listen API key, sent in the X-ListenAPI-Key request header.
+  sources:
+  - openapi/listennotes-openapi.yml

@@ -277,6 +277,10 @@ apis:
     podcast by RSS URL, force a refresh of a podcast's RSS feed, and request removal of
     a podcast.
 common:
+- type: DomainSecurity
+  url: security/listennotes-domain-security.yml
+- type: Authentication
+  url: authentication/listennotes-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/ListenNotes
 - type: LinkedIn
