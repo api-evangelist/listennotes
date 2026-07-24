@@ -1,0 +1,333 @@
+openapi: 3.1.0
+info:
+  title: 'Listen API: Podcast Search, Directory, and Insights Directory API API'
+  description: 'Simple and no-nonsense podcast search and directory API from Listen Notes.
+
+    Full-text search all podcasts and episodes by people, places, or topics;
+
+    fetch podcast and episode metadata; browse best-podcasts charts, curated
+
+    lists, and genres; retrieve recommendations; power typeahead autocomplete;
+
+    and pull audience demographics. All requests are authenticated with an
+
+    `X-ListenAPI-Key` request header. FREE, PRO, and ENTERPRISE plans are billed
+
+    on a per-request basis.
+
+
+    This document was authored by API Evangelist and grounded in the official
+
+    Listen API OpenAPI specification published at
+
+    https://listen-api.listennotes.com/api/v2/openapi.yaml. Endpoints and
+
+    parameters reflect the published specification.
+
+    '
+  termsOfService: https://www.listennotes.com/api/terms/
+  contact:
+    name: Listen Notes
+    url: https://www.listennotes.com/api/
+    email: hello@listennotes.com
+  version: '2.0'
+servers:
+- url: https://listen-api.listennotes.com/api/v2
+  description: API Production Server
+security:
+- apiKeyHeader: []
+tags:
+- name: Directory API
+  description: Endpoints to fetch podcasts, episodes, charts, and reference data.
+paths:
+  /best_podcasts:
+    get:
+      tags:
+      - Directory API
+      summary: Best podcasts by genre
+      description: Fetch a curated list of the best podcasts, optionally filtered by genre, region, and language.
+      operationId: bestPodcasts
+      parameters:
+      - name: genre_id
+        in: query
+        description: Genre id (omit or 0 for overall best).
+        schema:
+          type: integer
+      - name: page
+        in: query
+        description: Page number for pagination.
+        schema:
+          type: integer
+          default: 1
+      - name: region
+        in: query
+        description: Region/country of the chart.
+        schema:
+          type: string
+          default: us
+      - name: publisher_region
+        in: query
+        description: Filter by the publisher's region.
+        schema:
+          type: string
+      - name: language
+        in: query
+        description: Filter by podcast language.
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: listen_score or recent_added_first.
+        schema:
+          type: string
+          default: listen_score
+      - name: safe_mode
+        in: query
+        description: 1 = exclude explicit content.
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: Best podcasts chart.
+  /podcasts/{id}:
+    get:
+      tags:
+      - Directory API
+      summary: Get a podcast by id
+      description: Fetch detailed metadata and a paginated list of episodes for a podcast by id.
+      operationId: getPodcastById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Podcast id.
+        schema:
+          type: string
+      - name: next_episode_pub_date
+        in: query
+        description: Timestamp (ms) to paginate episodes.
+        schema:
+          type: integer
+      - name: sort
+        in: query
+        description: recent_first or oldest_first.
+        schema:
+          type: string
+          default: recent_first
+      responses:
+        '200':
+          description: Podcast metadata and episodes.
+  /episodes/{id}:
+    get:
+      tags:
+      - Directory API
+      summary: Get an episode by id
+      description: Fetch detailed metadata for an episode by id.
+      operationId: getEpisodeById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Episode id.
+        schema:
+          type: string
+      - name: show_transcript
+        in: query
+        description: 1 = include transcript when available.
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: Episode metadata.
+  /episodes:
+    post:
+      tags:
+      - Directory API
+      summary: Batch fetch episodes
+      description: Batch fetch basic metadata for up to 10 episodes by id.
+      operationId: batchGetEpisodes
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                ids:
+                  type: string
+                  description: Comma-separated episode ids.
+              required:
+              - ids
+      responses:
+        '200':
+          description: Basic metadata for the requested episodes.
+  /podcasts:
+    post:
+      tags:
+      - Directory API
+      summary: Batch fetch podcasts
+      description: Batch fetch basic metadata for up to 10 podcasts by id.
+      operationId: batchGetPodcasts
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                ids:
+                  type: string
+                  description: Comma-separated podcast ids.
+                rsses:
+                  type: string
+                  description: Comma-separated RSS feed URLs.
+                itunes_ids:
+                  type: string
+                  description: Comma-separated iTunes ids.
+                show_latest_episodes:
+                  type: integer
+                  description: 1 = include latest episodes.
+      responses:
+        '200':
+          description: Basic metadata for the requested podcasts.
+  /curated_podcasts:
+    get:
+      tags:
+      - Directory API
+      summary: Fetch curated lists of podcasts
+      description: Fetch a paginated list of curated podcast lists.
+      operationId: getCuratedPodcasts
+      parameters:
+      - name: page
+        in: query
+        description: Page number for pagination.
+        schema:
+          type: integer
+          default: 1
+      responses:
+        '200':
+          description: Curated lists.
+  /curated_podcasts/{id}:
+    get:
+      tags:
+      - Directory API
+      summary: Get a curated list by id
+      description: Fetch a curated list of podcasts by id, including the podcasts inside it.
+      operationId: getCuratedPodcastById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Curated list id.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Curated list detail.
+  /genres:
+    get:
+      tags:
+      - Directory API
+      summary: Fetch podcast genres
+      description: Fetch the full list of podcast genres in the Listen Notes taxonomy.
+      operationId: getGenres
+      parameters:
+      - name: top_level_only
+        in: query
+        description: 1 = only top-level genres.
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: Genre taxonomy.
+  /regions:
+    get:
+      tags:
+      - Directory API
+      summary: Fetch supported regions
+      description: Fetch the list of supported countries/regions for best-podcasts charts.
+      operationId: getRegions
+      responses:
+        '200':
+          description: Supported regions.
+  /languages:
+    get:
+      tags:
+      - Directory API
+      summary: Fetch supported languages
+      description: Fetch the list of supported languages for podcasts.
+      operationId: getLanguages
+      responses:
+        '200':
+          description: Supported languages.
+  /just_listen:
+    get:
+      tags:
+      - Directory API
+      summary: Fetch a random episode
+      description: Fetch a random podcast episode (Just Listen) for serendipitous discovery.
+      operationId: justListen
+      parameters:
+      - name: safe_mode
+        in: query
+        description: 1 = exclude explicit content.
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: A random episode.
+  /podcasts/{id}/recommendations:
+    get:
+      tags:
+      - Directory API
+      summary: Podcast recommendations
+      description: Fetch up to eight podcast recommendations for a given podcast.
+      operationId: getPodcastRecommendations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Podcast id.
+        schema:
+          type: string
+      - name: safe_mode
+        in: query
+        description: 1 = exclude explicit content.
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: Recommended podcasts.
+  /episodes/{id}/recommendations:
+    get:
+      tags:
+      - Directory API
+      summary: Episode recommendations
+      description: Fetch up to eight episode recommendations for a given episode.
+      operationId: getEpisodeRecommendations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Episode id.
+        schema:
+          type: string
+      - name: safe_mode
+        in: query
+        description: 1 = exclude explicit content.
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: Recommended episodes.
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-ListenAPI-Key
+      description: Your Listen API key, sent in the X-ListenAPI-Key request header.

@@ -1,0 +1,112 @@
+openapi: 3.1.0
+info:
+  title: 'Listen API: Podcast Search, Directory, and Insights Directory API Podcaster API API'
+  description: 'Simple and no-nonsense podcast search and directory API from Listen Notes.
+
+    Full-text search all podcasts and episodes by people, places, or topics;
+
+    fetch podcast and episode metadata; browse best-podcasts charts, curated
+
+    lists, and genres; retrieve recommendations; power typeahead autocomplete;
+
+    and pull audience demographics. All requests are authenticated with an
+
+    `X-ListenAPI-Key` request header. FREE, PRO, and ENTERPRISE plans are billed
+
+    on a per-request basis.
+
+
+    This document was authored by API Evangelist and grounded in the official
+
+    Listen API OpenAPI specification published at
+
+    https://listen-api.listennotes.com/api/v2/openapi.yaml. Endpoints and
+
+    parameters reflect the published specification.
+
+    '
+  termsOfService: https://www.listennotes.com/api/terms/
+  contact:
+    name: Listen Notes
+    url: https://www.listennotes.com/api/
+    email: hello@listennotes.com
+  version: '2.0'
+servers:
+- url: https://listen-api.listennotes.com/api/v2
+  description: API Production Server
+security:
+- apiKeyHeader: []
+tags:
+- name: Podcaster API
+  description: Endpoints to improve the podcast database.
+paths:
+  /podcasts/{id}:
+    delete:
+      tags:
+      - Podcaster API
+      summary: Request to delete a podcast
+      description: Request removal of a podcast from the Listen Notes database.
+      operationId: deletePodcastById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Podcast id.
+        schema:
+          type: string
+      - name: reason
+        in: query
+        description: Reason for the deletion request.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deletion request accepted.
+  /podcasts/submit:
+    post:
+      tags:
+      - Podcaster API
+      summary: Submit a podcast
+      description: Submit a podcast to the Listen Notes database by RSS feed URL.
+      operationId: submitPodcast
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                rss:
+                  type: string
+                  description: The RSS feed URL of the podcast.
+                email:
+                  type: string
+                  description: Email to notify when the podcast is available.
+              required:
+              - rss
+      responses:
+        '200':
+          description: Submission accepted.
+  /podcasts/{id}/rss:
+    post:
+      tags:
+      - Podcaster API
+      summary: Refresh a podcast RSS feed
+      description: Force a refresh of a podcast's RSS feed to pull in the latest episodes.
+      operationId: refreshPodcastRss
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Podcast id.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Refresh accepted.
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-ListenAPI-Key
+      description: Your Listen API key, sent in the X-ListenAPI-Key request header.

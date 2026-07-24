@@ -1,0 +1,106 @@
+openapi: 3.1.0
+info:
+  title: 'Listen API: Podcast Search, Directory, and Insights Directory API Playlist API API'
+  description: 'Simple and no-nonsense podcast search and directory API from Listen Notes.
+
+    Full-text search all podcasts and episodes by people, places, or topics;
+
+    fetch podcast and episode metadata; browse best-podcasts charts, curated
+
+    lists, and genres; retrieve recommendations; power typeahead autocomplete;
+
+    and pull audience demographics. All requests are authenticated with an
+
+    `X-ListenAPI-Key` request header. FREE, PRO, and ENTERPRISE plans are billed
+
+    on a per-request basis.
+
+
+    This document was authored by API Evangelist and grounded in the official
+
+    Listen API OpenAPI specification published at
+
+    https://listen-api.listennotes.com/api/v2/openapi.yaml. Endpoints and
+
+    parameters reflect the published specification.
+
+    '
+  termsOfService: https://www.listennotes.com/api/terms/
+  contact:
+    name: Listen Notes
+    url: https://www.listennotes.com/api/
+    email: hello@listennotes.com
+  version: '2.0'
+servers:
+- url: https://listen-api.listennotes.com/api/v2
+  description: API Production Server
+security:
+- apiKeyHeader: []
+tags:
+- name: Playlist API
+  description: Endpoints to fetch Listen Later playlists data.
+paths:
+  /playlists:
+    get:
+      tags:
+      - Playlist API
+      summary: Fetch your playlists
+      description: Fetch a paginated list of your Listen Later playlists.
+      operationId: getPlaylists
+      parameters:
+      - name: sort
+        in: query
+        description: recent_added_first or recent_updated_first.
+        schema:
+          type: string
+          default: recent_added_first
+      - name: page
+        in: query
+        description: Page number for pagination.
+        schema:
+          type: integer
+          default: 1
+      responses:
+        '200':
+          description: Your playlists.
+  /playlists/{id}:
+    get:
+      tags:
+      - Playlist API
+      summary: Get a playlist by id
+      description: Fetch a playlist's info and its items (episodes or podcasts) by id.
+      operationId: getPlaylistById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Playlist id.
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: episode_list or podcast_list.
+        schema:
+          type: string
+          default: episode_list
+      - name: last_timestamp_ms
+        in: query
+        description: Timestamp (ms) to paginate playlist items.
+        schema:
+          type: integer
+      - name: sort
+        in: query
+        description: recent_added_first or recent_updated_first.
+        schema:
+          type: string
+          default: recent_added_first
+      responses:
+        '200':
+          description: Playlist info and items.
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-ListenAPI-Key
+      description: Your Listen API key, sent in the X-ListenAPI-Key request header.

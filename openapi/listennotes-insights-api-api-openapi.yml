@@ -1,0 +1,89 @@
+openapi: 3.1.0
+info:
+  title: 'Listen API: Podcast Search, Directory, and Insights Directory API Insights API API'
+  description: 'Simple and no-nonsense podcast search and directory API from Listen Notes.
+
+    Full-text search all podcasts and episodes by people, places, or topics;
+
+    fetch podcast and episode metadata; browse best-podcasts charts, curated
+
+    lists, and genres; retrieve recommendations; power typeahead autocomplete;
+
+    and pull audience demographics. All requests are authenticated with an
+
+    `X-ListenAPI-Key` request header. FREE, PRO, and ENTERPRISE plans are billed
+
+    on a per-request basis.
+
+
+    This document was authored by API Evangelist and grounded in the official
+
+    Listen API OpenAPI specification published at
+
+    https://listen-api.listennotes.com/api/v2/openapi.yaml. Endpoints and
+
+    parameters reflect the published specification.
+
+    '
+  termsOfService: https://www.listennotes.com/api/terms/
+  contact:
+    name: Listen Notes
+    url: https://www.listennotes.com/api/
+    email: hello@listennotes.com
+  version: '2.0'
+servers:
+- url: https://listen-api.listennotes.com/api/v2
+  description: API Production Server
+security:
+- apiKeyHeader: []
+tags:
+- name: Insights API
+  description: Endpoints to get insights of podcasts, e.g., audience demographics.
+paths:
+  /podcasts/{id}/audience:
+    get:
+      tags:
+      - Insights API
+      summary: Podcast audience demographics
+      description: Fetch audience demographics and insights for a podcast by id.
+      operationId: getPodcastAudience
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Podcast id.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Audience demographics.
+  /podcasts/domains/{domain_name}:
+    get:
+      tags:
+      - Insights API
+      summary: Podcasts by publisher domain
+      description: Fetch podcasts associated with a publisher's domain name.
+      operationId: getPodcastsByDomain
+      parameters:
+      - name: domain_name
+        in: path
+        required: true
+        description: Publisher domain name (e.g. nytimes.com).
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number for pagination.
+        schema:
+          type: integer
+          default: 1
+      responses:
+        '200':
+          description: Podcasts for the domain.
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-ListenAPI-Key
+      description: Your Listen API key, sent in the X-ListenAPI-Key request header.

@@ -1,0 +1,291 @@
+openapi: 3.1.0
+info:
+  title: 'Listen API: Podcast Search, Directory, and Insights Directory API Search API API'
+  description: 'Simple and no-nonsense podcast search and directory API from Listen Notes.
+
+    Full-text search all podcasts and episodes by people, places, or topics;
+
+    fetch podcast and episode metadata; browse best-podcasts charts, curated
+
+    lists, and genres; retrieve recommendations; power typeahead autocomplete;
+
+    and pull audience demographics. All requests are authenticated with an
+
+    `X-ListenAPI-Key` request header. FREE, PRO, and ENTERPRISE plans are billed
+
+    on a per-request basis.
+
+
+    This document was authored by API Evangelist and grounded in the official
+
+    Listen API OpenAPI specification published at
+
+    https://listen-api.listennotes.com/api/v2/openapi.yaml. Endpoints and
+
+    parameters reflect the published specification.
+
+    '
+  termsOfService: https://www.listennotes.com/api/terms/
+  contact:
+    name: Listen Notes
+    url: https://www.listennotes.com/api/
+    email: hello@listennotes.com
+  version: '2.0'
+servers:
+- url: https://listen-api.listennotes.com/api/v2
+  description: API Production Server
+security:
+- apiKeyHeader: []
+tags:
+- name: Search API
+  description: Endpoints to search podcasts and episodes.
+paths:
+  /search:
+    get:
+      tags:
+      - Search API
+      summary: Full-text search
+      description: 'Full-text search on episodes, podcasts, or curated lists of podcasts.
+
+        Use the `offset` parameter to paginate through results. FREE plan sees up
+
+        to 30 results per query, PRO up to 300, ENTERPRISE up to 10,000.
+
+        '
+      operationId: search
+      parameters:
+      - name: q
+        in: query
+        required: true
+        description: Search term.
+        schema:
+          type: string
+      - name: sort_by_date
+        in: query
+        description: 0 = relevance
+        1 = date.: null
+        schema:
+          type: integer
+          default: 0
+      - name: type
+        in: query
+        description: episode, podcast, or curated.
+        schema:
+          type: string
+          enum:
+          - episode
+          - podcast
+          - curated
+          default: episode
+      - name: offset
+        in: query
+        description: Offset for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: len_min
+        in: query
+        description: Minimum audio length in minutes.
+        schema:
+          type: integer
+      - name: len_max
+        in: query
+        description: Maximum audio length in minutes.
+        schema:
+          type: integer
+      - name: episode_count_min
+        in: query
+        description: Minimum episode count (podcast search).
+        schema:
+          type: integer
+      - name: episode_count_max
+        in: query
+        description: Maximum episode count (podcast search).
+        schema:
+          type: integer
+      - name: genre_ids
+        in: query
+        description: Comma-separated genre ids to filter by.
+        schema:
+          type: string
+      - name: published_before
+        in: query
+        description: Only results published before this timestamp (ms).
+        schema:
+          type: integer
+      - name: published_after
+        in: query
+        description: Only results published after this timestamp (ms).
+        schema:
+          type: integer
+      - name: only_in
+        in: query
+        description: Comma-separated fields to search in (e.g. title
+        description).: null
+        schema:
+          type: string
+      - name: language
+        in: query
+        description: Filter by language.
+        schema:
+          type: string
+          default: Any language
+      - name: region
+        in: query
+        description: Filter by country/region.
+        schema:
+          type: string
+      - name: safe_mode
+        in: query
+        description: 1 = exclude explicit content.
+        schema:
+          type: integer
+          default: 0
+      - name: unique_podcasts
+        in: query
+        description: 1 = at most one episode per podcast.
+        schema:
+          type: integer
+          default: 0
+      - name: interviews_only
+        in: query
+        description: 1 = only interview episodes.
+        schema:
+          type: integer
+          default: 0
+      - name: sponsored_only
+        in: query
+        description: 1 = only sponsored content.
+        schema:
+          type: integer
+          default: 0
+      - name: page_size
+        in: query
+        description: Number of results per page (max 10 by default).
+        schema:
+          type: integer
+          default: 10
+      responses:
+        '200':
+          description: Search results.
+  /typeahead:
+    get:
+      tags:
+      - Search API
+      summary: Typeahead search
+      description: Suggest search terms, podcasts, and genres based on a partial query.
+      operationId: typeahead
+      parameters:
+      - name: q
+        in: query
+        required: true
+        description: Search term.
+        schema:
+          type: string
+      - name: show_podcasts
+        in: query
+        description: 1 = include podcast suggestions.
+        schema:
+          type: integer
+          default: 0
+      - name: show_genres
+        in: query
+        description: 1 = include genre suggestions.
+        schema:
+          type: integer
+          default: 0
+      - name: safe_mode
+        in: query
+        description: 1 = exclude explicit content.
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: Typeahead suggestions.
+  /search_episode_titles:
+    get:
+      tags:
+      - Search API
+      summary: Search episodes by title
+      description: Find individual episodes by searching only their titles.
+      operationId: searchEpisodeTitles
+      parameters:
+      - name: q
+        in: query
+        required: true
+        description: Search term.
+        schema:
+          type: string
+      - name: podcast_id
+        in: query
+        description: Restrict search to a single podcast id.
+        schema:
+          type: string
+      - name: sort_by_date
+        in: query
+        description: 0 = relevance
+        1 = date.: null
+        schema:
+          type: integer
+          default: 0
+      - name: page_size
+        in: query
+        description: Number of results per page.
+        schema:
+          type: integer
+          default: 10
+      responses:
+        '200':
+          description: Matching episodes.
+  /trending_searches:
+    get:
+      tags:
+      - Search API
+      summary: Trending search terms
+      description: Fetch up-to-date trending search terms on the Listen Notes platform.
+      operationId: trendingSearches
+      responses:
+        '200':
+          description: Trending search terms.
+  /related_searches:
+    get:
+      tags:
+      - Search API
+      summary: Related search terms
+      description: Fetch up-to-date related search terms for a given search term.
+      operationId: relatedSearches
+      parameters:
+      - name: q
+        in: query
+        required: true
+        description: Search term.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Related search terms.
+  /spellcheck:
+    get:
+      tags:
+      - Search API
+      summary: Spell check
+      description: Suggest a spell-corrected version of a search term.
+      operationId: spellcheck
+      parameters:
+      - name: q
+        in: query
+        required: true
+        description: Search term to spell check.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Spell-check suggestions.
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-ListenAPI-Key
+      description: Your Listen API key, sent in the X-ListenAPI-Key request header.
