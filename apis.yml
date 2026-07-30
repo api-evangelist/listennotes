@@ -11,7 +11,20 @@ description: Listen Notes runs the largest podcast search engine and database, a
   publisher-domain insights. The API is served at
   https://listen-api.listennotes.com/api/v2 and authenticated with an X-ListenAPI-Key
   header, with FREE, PRO, and ENTERPRISE plans billed on a request basis.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/listennotes.png
 tags:
 - Podcasts
 - Podcast Search
@@ -24,258 +37,96 @@ created: '2026-07-03'
 modified: '2026-07-03'
 specificationVersion: '0.19'
 apis:
-- aid: listennotes:listennotes-search-api
-  name: Listen Notes Search API
-  tags:
-  - Search
-  - Full Text Search
-  - Podcasts
-  - Episodes
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+- aid: listennotes:listennotes-directory-api-api
+  name: Listen Notes Directory API API
+  description: Endpoints to fetch podcasts, episodes, charts, and reference data.
   humanURL: https://www.listennotes.com/api/docs/
   baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: https://www.listennotes.com/api/docs/
-    type: APIReference
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Full-text search across episodes, podcasts, and curated lists by people,
-    places, or topics, with rich filters (genre, language, region, length, publish
-    date, episode count, update frequency). Includes searching individual episodes by
-    title and spell-checking a search term.
-- aid: listennotes:listennotes-typeahead-api
-  name: Listen Notes Typeahead API
   tags:
-  - Typeahead
-  - Autocomplete
-  - Search
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  - Directory API
+  properties:
+  - type: OpenAPI
+    url: openapi/listennotes-directory-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.listennotes.com/api/docs/
+  - type: APIReference
+    url: https://www.listennotes.com/api/docs/
+  - type: PostmanCollection
+    url: collections/listennotes.postman_collection.json
+  - type: OpenCollection
+    url: collections/listennotes.opencollection.json
+- aid: listennotes:listennotes-insights-api-api
+  name: Listen Notes Insights API API
+  description: Endpoints to get insights of podcasts, e.g., audience demographics.
   humanURL: https://www.listennotes.com/api/docs/
   baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Typeahead search that suggests search terms, podcasts, and genres as a
-    user types - ideal for building autocomplete boxes for podcast search interfaces.
-- aid: listennotes:listennotes-trending-searches-api
-  name: Listen Notes Trending & Related Searches API
   tags:
-  - Trending
-  - Related Searches
-  - Search
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  - Insights API
+  properties:
+  - type: OpenAPI
+    url: openapi/listennotes-insights-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.listennotes.com/api/docs/
+  - type: APIReference
+    url: https://www.listennotes.com/api/docs/
+  - type: PostmanCollection
+    url: collections/listennotes.postman_collection.json
+  - type: OpenCollection
+    url: collections/listennotes.opencollection.json
+- aid: listennotes:listennotes-playlist-api-api
+  name: Listen Notes Playlist API API
+  description: Endpoints to fetch Listen Later playlists data.
   humanURL: https://www.listennotes.com/api/docs/
   baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Fetch trending search terms across the platform and related search terms
-    for a given query, useful for surfacing popular topics and expanding discovery.
-- aid: listennotes:listennotes-podcasts-api
-  name: Listen Notes Podcasts API
   tags:
-  - Podcasts
-  - Metadata
-  - Directory
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  - Playlist API
+  properties:
+  - type: OpenAPI
+    url: openapi/listennotes-playlist-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.listennotes.com/api/docs/
+  - type: APIReference
+    url: https://www.listennotes.com/api/docs/
+  - type: PostmanCollection
+    url: collections/listennotes.postman_collection.json
+  - type: OpenCollection
+    url: collections/listennotes.opencollection.json
+- aid: listennotes:listennotes-podcaster-api-api
+  name: Listen Notes Podcaster API API
+  description: Endpoints to improve the podcast database.
   humanURL: https://www.listennotes.com/api/docs/
   baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Fetch detailed metadata and paginated episodes for a podcast by id, batch
-    fetch basic metadata for multiple podcasts by id, and pull a random podcast episode
-    (Just Listen) for serendipitous discovery.
-- aid: listennotes:listennotes-episodes-api
-  name: Listen Notes Episodes API
   tags:
-  - Episodes
-  - Metadata
-  - Directory
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  - Podcaster API
+  properties:
+  - type: OpenAPI
+    url: openapi/listennotes-podcaster-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.listennotes.com/api/docs/
+  - type: APIReference
+    url: https://www.listennotes.com/api/docs/
+  - type: PostmanCollection
+    url: collections/listennotes.postman_collection.json
+  - type: OpenCollection
+    url: collections/listennotes.opencollection.json
+- aid: listennotes:listennotes-search-api-api
+  name: Listen Notes Search API API
+  description: Endpoints to search podcasts and episodes.
   humanURL: https://www.listennotes.com/api/docs/
   baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Fetch detailed metadata for a single episode by id, and batch fetch basic
-    metadata for multiple episodes by id in one request.
-- aid: listennotes:listennotes-best-podcasts-api
-  name: Listen Notes Best Podcasts API
   tags:
-  - Best Podcasts
-  - Charts
-  - Directory
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.listennotes.com/api/docs/
-  baseURL: https://listen-api.listennotes.com/api/v2
+  - Search API
   properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Fetch curated best-podcasts charts by genre, region, publisher region,
-    and language - the editorial and popularity-ranked lists that power podcast
-    discovery experiences.
-- aid: listennotes:listennotes-curated-lists-api
-  name: Listen Notes Curated Lists API
-  tags:
-  - Curated Lists
-  - Recommendations
-  - Directory
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.listennotes.com/api/docs/
-  baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Fetch paginated curated lists of podcasts hand-assembled around themes and
-    topics from around the web, and retrieve the podcasts inside a specific curated
-    list by id.
-- aid: listennotes:listennotes-playlists-api
-  name: Listen Notes Playlists API
-  tags:
-  - Playlists
-  - Listen Later
-  - Directory
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.listennotes.com/api/docs/
-  baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Fetch your Listen Later playlists and the items (episodes or podcasts)
-    inside a specific playlist by id, letting apps read the playlists a user builds on
-    Listen Notes.
-- aid: listennotes:listennotes-genres-regions-languages-api
-  name: Listen Notes Genres, Regions & Languages API
-  tags:
-  - Genres
-  - Regions
-  - Languages
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.listennotes.com/api/docs/
-  baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Fetch the reference vocabularies used across the API - the full podcast
-    genre taxonomy, the supported countries/regions for best-podcasts charts, and the
-    supported podcast languages.
-- aid: listennotes:listennotes-recommendations-api
-  name: Listen Notes Recommendations API
-  tags:
-  - Recommendations
-  - Discovery
-  - Directory
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.listennotes.com/api/docs/
-  baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Fetch similar-content recommendations for a given podcast or a given
-    episode, powering "you might also like" discovery surfaces.
-- aid: listennotes:listennotes-audience-insights-api
-  name: Listen Notes Podcast Audience Insights API
-  tags:
-  - Insights
-  - Audience
-  - Demographics
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.listennotes.com/api/docs/
-  baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Fetch audience demographics and insights for a podcast by id, and list the
-    podcasts associated with a publisher's domain name - the analytics surface for
-    understanding a show's reach and a publisher's catalog.
-- aid: listennotes:listennotes-podcaster-api
-  name: Listen Notes Podcaster API
-  tags:
-  - Podcaster
-  - Submit
-  - RSS
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.listennotes.com/api/docs/
-  baseURL: https://listen-api.listennotes.com/api/v2
-  properties:
-  - url: https://www.listennotes.com/api/docs/
-    type: Documentation
-  - url: openapi/listennotes-openapi.yml
-    type: OpenAPI
-  - url: collections/listennotes.postman_collection.json
-    type: PostmanCollection
-  - url: collections/listennotes.opencollection.json
-    type: OpenCollection
-  description: Endpoints for podcasters to improve the Listen Notes database - submit a
-    podcast by RSS URL, force a refresh of a podcast's RSS feed, and request removal of
-    a podcast.
+  - type: OpenAPI
+    url: openapi/listennotes-search-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.listennotes.com/api/docs/
+  - type: APIReference
+    url: https://www.listennotes.com/api/docs/
+  - type: PostmanCollection
+    url: collections/listennotes.postman_collection.json
+  - type: OpenCollection
+    url: collections/listennotes.opencollection.json
 common:
 - type: AgenticAccess
   url: agentic-access/listennotes-agentic-access.yml
