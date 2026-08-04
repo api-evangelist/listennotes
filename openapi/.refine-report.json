@@ -1,0 +1,22 @@
+{
+  "provider": "listennotes",
+  "sources": [
+    "listennotes-directory-api-api-openapi.yml",
+    "listennotes-insights-api-api-openapi.yml",
+    "listennotes-playlist-api-api-openapi.yml",
+    "listennotes-podcaster-api-api-openapi.yml",
+    "listennotes-search-api-api-openapi.yml"
+  ],
+  "outputs": [
+    "listennotes-directory-api-api-openapi.yml",
+    "listennotes-insights-api-api-openapi.yml",
+    "listennotes-playlist-api-api-openapi.yml",
+    "listennotes-podcaster-api-api-openapi.yml",
+    "listennotes-search-api-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
