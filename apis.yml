@@ -35,7 +35,7 @@ tags:
 - Podcast Insights
 created: '2026-07-03'
 modified: '2026-07-03'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: listennotes:listennotes-directory-api-api
   name: Listen Notes Directory API API
