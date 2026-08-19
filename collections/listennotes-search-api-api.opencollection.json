@@ -1,0 +1,276 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Listen API: Podcast Search, Directory, and Insights Directory API Search API API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-ListenAPI-Key",
+      "value": "{{X-ListenAPI-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Full-text search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listen-api.listennotes.com/api/v2/search",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search term."
+              },
+              {
+                "name": "sort_by_date",
+                "value": "",
+                "type": "query",
+                "description": "0 = relevance"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "episode, podcast, or curated."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Offset for pagination."
+              },
+              {
+                "name": "len_min",
+                "value": "",
+                "type": "query",
+                "description": "Minimum audio length in minutes."
+              },
+              {
+                "name": "len_max",
+                "value": "",
+                "type": "query",
+                "description": "Maximum audio length in minutes."
+              },
+              {
+                "name": "episode_count_min",
+                "value": "",
+                "type": "query",
+                "description": "Minimum episode count (podcast search)."
+              },
+              {
+                "name": "episode_count_max",
+                "value": "",
+                "type": "query",
+                "description": "Maximum episode count (podcast search)."
+              },
+              {
+                "name": "genre_ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated genre ids to filter by."
+              },
+              {
+                "name": "published_before",
+                "value": "",
+                "type": "query",
+                "description": "Only results published before this timestamp (ms)."
+              },
+              {
+                "name": "published_after",
+                "value": "",
+                "type": "query",
+                "description": "Only results published after this timestamp (ms)."
+              },
+              {
+                "name": "only_in",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated fields to search in (e.g. title"
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "query",
+                "description": "Filter by language."
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "Filter by country/region."
+              },
+              {
+                "name": "safe_mode",
+                "value": "",
+                "type": "query",
+                "description": "1 = exclude explicit content."
+              },
+              {
+                "name": "unique_podcasts",
+                "value": "",
+                "type": "query",
+                "description": "1 = at most one episode per podcast."
+              },
+              {
+                "name": "interviews_only",
+                "value": "",
+                "type": "query",
+                "description": "1 = only interview episodes."
+              },
+              {
+                "name": "sponsored_only",
+                "value": "",
+                "type": "query",
+                "description": "1 = only sponsored content."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 10 by default)."
+              }
+            ]
+          },
+          "docs": "Full-text search on episodes, podcasts, or curated lists of podcasts.\nUse the `offset` parameter to paginate through results. FREE plan sees up\nto 30 results per query, PRO up to 300, ENTERPRISE up to 10,000.\n"
+        },
+        {
+          "info": {
+            "name": "Typeahead search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listen-api.listennotes.com/api/v2/typeahead",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search term."
+              },
+              {
+                "name": "show_podcasts",
+                "value": "",
+                "type": "query",
+                "description": "1 = include podcast suggestions."
+              },
+              {
+                "name": "show_genres",
+                "value": "",
+                "type": "query",
+                "description": "1 = include genre suggestions."
+              },
+              {
+                "name": "safe_mode",
+                "value": "",
+                "type": "query",
+                "description": "1 = exclude explicit content."
+              }
+            ]
+          },
+          "docs": "Suggest search terms, podcasts, and genres based on a partial query."
+        },
+        {
+          "info": {
+            "name": "Search episodes by title",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listen-api.listennotes.com/api/v2/search_episode_titles",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search term."
+              },
+              {
+                "name": "podcast_id",
+                "value": "",
+                "type": "query",
+                "description": "Restrict search to a single podcast id."
+              },
+              {
+                "name": "sort_by_date",
+                "value": "",
+                "type": "query",
+                "description": "0 = relevance"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page."
+              }
+            ]
+          },
+          "docs": "Find individual episodes by searching only their titles."
+        },
+        {
+          "info": {
+            "name": "Trending search terms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listen-api.listennotes.com/api/v2/trending_searches"
+          },
+          "docs": "Fetch up-to-date trending search terms on the Listen Notes platform."
+        },
+        {
+          "info": {
+            "name": "Related search terms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listen-api.listennotes.com/api/v2/related_searches",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search term."
+              }
+            ]
+          },
+          "docs": "Fetch up-to-date related search terms for a given search term."
+        },
+        {
+          "info": {
+            "name": "Spell check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listen-api.listennotes.com/api/v2/spellcheck",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search term to spell check."
+              }
+            ]
+          },
+          "docs": "Suggest a spell-corrected version of a search term."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

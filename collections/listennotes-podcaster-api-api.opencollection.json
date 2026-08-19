@@ -1,0 +1,94 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Listen API: Podcast Search, Directory, and Insights Directory API Podcaster API API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-ListenAPI-Key",
+      "value": "{{X-ListenAPI-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Podcaster API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Request to delete a podcast",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://listen-api.listennotes.com/api/v2/podcasts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Podcast id."
+              },
+              {
+                "name": "reason",
+                "value": "",
+                "type": "query",
+                "description": "Reason for the deletion request."
+              }
+            ]
+          },
+          "docs": "Request removal of a podcast from the Listen Notes database."
+        },
+        {
+          "info": {
+            "name": "Submit a podcast",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://listen-api.listennotes.com/api/v2/podcasts/submit",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "rss",
+                  "value": ""
+                },
+                {
+                  "name": "email",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Submit a podcast to the Listen Notes database by RSS feed URL."
+        },
+        {
+          "info": {
+            "name": "Refresh a podcast RSS feed",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://listen-api.listennotes.com/api/v2/podcasts/:id/rss",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Podcast id."
+              }
+            ]
+          },
+          "docs": "Force a refresh of a podcast's RSS feed to pull in the latest episodes."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

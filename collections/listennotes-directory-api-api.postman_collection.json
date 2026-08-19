@@ -1,0 +1,1298 @@
+{
+  "item": [
+    {
+      "id": "9e3b453c-ee21-413e-91fe-b172ec4857a4",
+      "name": "Directory API",
+      "description": {
+        "content": "Endpoints to fetch podcasts, episodes, charts, and reference data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c74737cd-d881-46a9-92c0-9bc11d0be12d",
+          "name": "Best podcasts by genre",
+          "request": {
+            "name": "Best podcasts by genre",
+            "description": {
+              "content": "Fetch a curated list of the best podcasts, optionally filtered by genre, region, and language.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "best_podcasts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "genre_id",
+                  "value": "<integer>",
+                  "description": "Genre id (omit or 0 for overall best)."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "us",
+                  "description": "Region/country of the chart."
+                },
+                {
+                  "disabled": false,
+                  "key": "publisher_region",
+                  "value": "<string>",
+                  "description": "Filter by the publisher's region."
+                },
+                {
+                  "disabled": false,
+                  "key": "language",
+                  "value": "<string>",
+                  "description": "Filter by podcast language."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "listen_score",
+                  "description": "listen_score or recent_added_first."
+                },
+                {
+                  "disabled": false,
+                  "key": "safe_mode",
+                  "value": "0",
+                  "description": "1 = exclude explicit content."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "36af77d9-d51c-4fe6-9de1-12840fd7b175",
+              "name": "Best podcasts chart.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "best_podcasts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "genre_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "region",
+                      "value": "us"
+                    },
+                    {
+                      "key": "publisher_region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "language",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "listen_score"
+                    },
+                    {
+                      "key": "safe_mode",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9595038f-2d85-4b69-8b58-8719eb9701e0",
+          "name": "Get a podcast by id",
+          "request": {
+            "name": "Get a podcast by id",
+            "description": {
+              "content": "Fetch detailed metadata and a paginated list of episodes for a podcast by id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "podcasts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "next_episode_pub_date",
+                  "value": "<integer>",
+                  "description": "Timestamp (ms) to paginate episodes."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "recent_first",
+                  "description": "recent_first or oldest_first."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Podcast id."
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3c72bee4-b253-4f2d-8983-9b9874d5504b",
+              "name": "Podcast metadata and episodes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "podcasts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "next_episode_pub_date",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "recent_first"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Podcast id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f3de2379-4f0b-4fe9-a4aa-2a8065c2d4e8",
+          "name": "Get an episode by id",
+          "request": {
+            "name": "Get an episode by id",
+            "description": {
+              "content": "Fetch detailed metadata for an episode by id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "episodes",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "show_transcript",
+                  "value": "0",
+                  "description": "1 = include transcript when available."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Episode id."
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "be27d90a-d8dd-4acf-91eb-215bd4b9953e",
+              "name": "Episode metadata.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episodes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "show_transcript",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Episode id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "657b6f1b-fbba-4545-88db-d56b30636d5e",
+          "name": "Batch fetch episodes",
+          "request": {
+            "name": "Batch fetch episodes",
+            "description": {
+              "content": "Batch fetch basic metadata for up to 10 episodes by id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "episodes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated episode ids."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f580b248-3734-4526-8b46-6fe10551e440",
+              "name": "Basic metadata for the requested episodes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Comma-separated episode ids.",
+                        "type": "text/plain"
+                      },
+                      "key": "ids",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6c331bcb-01a2-452a-829e-33ed304dfec6",
+          "name": "Batch fetch podcasts",
+          "request": {
+            "name": "Batch fetch podcasts",
+            "description": {
+              "content": "Batch fetch basic metadata for up to 10 podcasts by id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "podcasts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "Comma-separated podcast ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "rsses",
+                  "value": "<string>",
+                  "description": "Comma-separated RSS feed URLs."
+                },
+                {
+                  "disabled": false,
+                  "key": "itunes_ids",
+                  "value": "<string>",
+                  "description": "Comma-separated iTunes ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "show_latest_episodes",
+                  "value": "<integer>",
+                  "description": "1 = include latest episodes."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f7e72406-1c4d-48d9-b7c8-4fc2711956b5",
+              "name": "Basic metadata for the requested podcasts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "podcasts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Comma-separated podcast ids.",
+                        "type": "text/plain"
+                      },
+                      "key": "ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Comma-separated RSS feed URLs.",
+                        "type": "text/plain"
+                      },
+                      "key": "rsses",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Comma-separated iTunes ids.",
+                        "type": "text/plain"
+                      },
+                      "key": "itunes_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "1 = include latest episodes.",
+                        "type": "text/plain"
+                      },
+                      "key": "show_latest_episodes",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5c2c4e0f-158a-4140-9c94-3c8bec9f2829",
+          "name": "Fetch curated lists of podcasts",
+          "request": {
+            "name": "Fetch curated lists of podcasts",
+            "description": {
+              "content": "Fetch a paginated list of curated podcast lists.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "curated_podcasts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "54df0ca6-daaa-4b77-b665-fdcadb874903",
+              "name": "Curated lists.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "curated_podcasts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cca13c3f-34fc-452f-bb38-ac828132e3f5",
+          "name": "Get a curated list by id",
+          "request": {
+            "name": "Get a curated list by id",
+            "description": {
+              "content": "Fetch a curated list of podcasts by id, including the podcasts inside it.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "curated_podcasts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Curated list id."
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0c536546-2f18-4301-9272-f1a64fc71b1e",
+              "name": "Curated list detail.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "curated_podcasts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Curated list id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1dc181f4-bbfb-464a-b78d-7fbd90789e72",
+          "name": "Fetch podcast genres",
+          "request": {
+            "name": "Fetch podcast genres",
+            "description": {
+              "content": "Fetch the full list of podcast genres in the Listen Notes taxonomy.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "genres"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "top_level_only",
+                  "value": "0",
+                  "description": "1 = only top-level genres."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9b6813cb-e914-44d6-8ec2-31f84c13c5a6",
+              "name": "Genre taxonomy.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "genres"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "top_level_only",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "08216b02-3e7b-41b4-99ab-07d808ef23f6",
+          "name": "Fetch supported regions",
+          "request": {
+            "name": "Fetch supported regions",
+            "description": {
+              "content": "Fetch the list of supported countries/regions for best-podcasts charts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "regions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23f87908-acc3-4514-a0ab-fa3a85ca8703",
+              "name": "Supported regions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "regions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40e04fc6-ce5e-4c3a-a541-9afee9da75ef",
+          "name": "Fetch supported languages",
+          "request": {
+            "name": "Fetch supported languages",
+            "description": {
+              "content": "Fetch the list of supported languages for podcasts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "languages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c92cf1b4-8ad5-470a-81dd-4dd091c30179",
+              "name": "Supported languages.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "languages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2f1fb1a4-839a-45c7-a6e4-cafce904a4b9",
+          "name": "Fetch a random episode",
+          "request": {
+            "name": "Fetch a random episode",
+            "description": {
+              "content": "Fetch a random podcast episode (Just Listen) for serendipitous discovery.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "just_listen"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "safe_mode",
+                  "value": "0",
+                  "description": "1 = exclude explicit content."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "62bbedc2-f29a-4114-b994-0ba46735f23a",
+              "name": "A random episode.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "just_listen"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "safe_mode",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "71abaaa1-92e7-4082-bb80-05b62d8890f5",
+          "name": "Podcast recommendations",
+          "request": {
+            "name": "Podcast recommendations",
+            "description": {
+              "content": "Fetch up to eight podcast recommendations for a given podcast.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "podcasts",
+                ":id",
+                "recommendations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "safe_mode",
+                  "value": "0",
+                  "description": "1 = exclude explicit content."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Podcast id."
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4e0fef97-7951-463a-be00-d6ea15bb723f",
+              "name": "Recommended podcasts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "podcasts",
+                    ":id",
+                    "recommendations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "safe_mode",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Podcast id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b453ebac-0580-4ce1-b111-90311503b55c",
+          "name": "Episode recommendations",
+          "request": {
+            "name": "Episode recommendations",
+            "description": {
+              "content": "Fetch up to eight episode recommendations for a given episode.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "episodes",
+                ":id",
+                "recommendations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "safe_mode",
+                  "value": "0",
+                  "description": "1 = exclude explicit content."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Episode id."
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7d013dd8-c7c2-4f6b-980c-ad5cdeeeb8a9",
+              "name": "Recommended episodes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episodes",
+                    ":id",
+                    "recommendations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "safe_mode",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Episode id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://listen-api.listennotes.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-ListenAPI-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e90b43d8-c52a-432b-82c1-718f9c3d8561",
+    "name": "Listen API: Podcast Search, Directory, and Insights Directory API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Simple and no-nonsense podcast search and directory API from Listen Notes.\nFull-text search all podcasts and episodes by people, places, or topics;\nfetch podcast and episode metadata; browse best-podcasts charts, curated\nlists, and genres; retrieve recommendations; power typeahead autocomplete;\nand pull audience demographics. All requests are authenticated with an\n`X-ListenAPI-Key` request header. FREE, PRO, and ENTERPRISE plans are billed\non a per-request basis.\n\nThis document was authored by API Evangelist and grounded in the official\nListen API OpenAPI specification published at\nhttps://listen-api.listennotes.com/api/v2/openapi.yaml. Endpoints and\nparameters reflect the published specification.\n\n\nContact Support:\n Name: Listen Notes\n Email: hello@listennotes.com",
+      "type": "text/plain"
+    }
+  }
+}

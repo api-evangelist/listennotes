@@ -1,0 +1,257 @@
+{
+  "item": [
+    {
+      "id": "a2120470-800f-485c-8987-b221699b42f9",
+      "name": "Playlist API",
+      "description": {
+        "content": "Endpoints to fetch Listen Later playlists data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "42f9a894-2092-4d7f-bfcc-3cdfa0d49e20",
+          "name": "Fetch your playlists",
+          "request": {
+            "name": "Fetch your playlists",
+            "description": {
+              "content": "Fetch a paginated list of your Listen Later playlists.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "playlists"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "recent_added_first",
+                  "description": "recent_added_first or recent_updated_first."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0d3c6ce0-aa22-47c4-bf7a-912a87e91115",
+              "name": "Your playlists.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "playlists"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "recent_added_first"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "59f982d7-1395-4aeb-a4e5-dd1e80653455",
+          "name": "Get a playlist by id",
+          "request": {
+            "name": "Get a playlist by id",
+            "description": {
+              "content": "Fetch a playlist's info and its items (episodes or podcasts) by id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "playlists",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "episode_list",
+                  "description": "episode_list or podcast_list."
+                },
+                {
+                  "disabled": false,
+                  "key": "last_timestamp_ms",
+                  "value": "<integer>",
+                  "description": "Timestamp (ms) to paginate playlist items."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "recent_added_first",
+                  "description": "recent_added_first or recent_updated_first."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Playlist id."
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2fd4d203-be29-4244-86b4-13e10ca3ac4d",
+              "name": "Playlist info and items.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "playlists",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "episode_list"
+                    },
+                    {
+                      "key": "last_timestamp_ms",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "recent_added_first"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Playlist id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://listen-api.listennotes.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-ListenAPI-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "394c9217-6c5b-445f-8fa4-a08c2d8f7e4c",
+    "name": "Listen API: Podcast Search, Directory, and Insights Directory API Playlist API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Simple and no-nonsense podcast search and directory API from Listen Notes.\nFull-text search all podcasts and episodes by people, places, or topics;\nfetch podcast and episode metadata; browse best-podcasts charts, curated\nlists, and genres; retrieve recommendations; power typeahead autocomplete;\nand pull audience demographics. All requests are authenticated with an\n`X-ListenAPI-Key` request header. FREE, PRO, and ENTERPRISE plans are billed\non a per-request basis.\n\nThis document was authored by API Evangelist and grounded in the official\nListen API OpenAPI specification published at\nhttps://listen-api.listennotes.com/api/v2/openapi.yaml. Endpoints and\nparameters reflect the published specification.\n\n\nContact Support:\n Name: Listen Notes\n Email: hello@listennotes.com",
+      "type": "text/plain"
+    }
+  }
+}

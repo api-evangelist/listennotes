@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Listen API: Podcast Search, Directory, and Insights Directory API Insights API API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-ListenAPI-Key",
+      "value": "{{X-ListenAPI-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Insights API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Podcast audience demographics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listen-api.listennotes.com/api/v2/podcasts/:id/audience",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Podcast id."
+              }
+            ]
+          },
+          "docs": "Fetch audience demographics and insights for a podcast by id."
+        },
+        {
+          "info": {
+            "name": "Podcasts by publisher domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listen-api.listennotes.com/api/v2/podcasts/domains/:domain_name",
+            "params": [
+              {
+                "name": "domain_name",
+                "value": "",
+                "type": "path",
+                "description": "Publisher domain name (e.g. nytimes.com)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination."
+              }
+            ]
+          },
+          "docs": "Fetch podcasts associated with a publisher's domain name."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,757 @@
+{
+  "item": [
+    {
+      "id": "4a4a4651-e3e2-44fc-9675-01a622f982b6",
+      "name": "Search API",
+      "description": {
+        "content": "Endpoints to search podcasts and episodes.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5ceb5979-c955-40f7-9be4-6993e27d587f",
+          "name": "Full-text search",
+          "request": {
+            "name": "Full-text search",
+            "description": {
+              "content": "Full-text search on episodes, podcasts, or curated lists of podcasts.\nUse the `offset` parameter to paginate through results. FREE plan sees up\nto 30 results per query, PRO up to 300, ENTERPRISE up to 10,000.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "(Required) Search term."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by_date",
+                  "value": "0",
+                  "description": "0 = relevance"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "episode",
+                  "description": "episode, podcast, or curated."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Offset for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "len_min",
+                  "value": "<integer>",
+                  "description": "Minimum audio length in minutes."
+                },
+                {
+                  "disabled": false,
+                  "key": "len_max",
+                  "value": "<integer>",
+                  "description": "Maximum audio length in minutes."
+                },
+                {
+                  "disabled": false,
+                  "key": "episode_count_min",
+                  "value": "<integer>",
+                  "description": "Minimum episode count (podcast search)."
+                },
+                {
+                  "disabled": false,
+                  "key": "episode_count_max",
+                  "value": "<integer>",
+                  "description": "Maximum episode count (podcast search)."
+                },
+                {
+                  "disabled": false,
+                  "key": "genre_ids",
+                  "value": "<string>",
+                  "description": "Comma-separated genre ids to filter by."
+                },
+                {
+                  "disabled": false,
+                  "key": "published_before",
+                  "value": "<integer>",
+                  "description": "Only results published before this timestamp (ms)."
+                },
+                {
+                  "disabled": false,
+                  "key": "published_after",
+                  "value": "<integer>",
+                  "description": "Only results published after this timestamp (ms)."
+                },
+                {
+                  "disabled": false,
+                  "key": "only_in",
+                  "value": "<string>",
+                  "description": "Comma-separated fields to search in (e.g. title"
+                },
+                {
+                  "disabled": false,
+                  "key": "language",
+                  "value": "Any language",
+                  "description": "Filter by language."
+                },
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "Filter by country/region."
+                },
+                {
+                  "disabled": false,
+                  "key": "safe_mode",
+                  "value": "0",
+                  "description": "1 = exclude explicit content."
+                },
+                {
+                  "disabled": false,
+                  "key": "unique_podcasts",
+                  "value": "0",
+                  "description": "1 = at most one episode per podcast."
+                },
+                {
+                  "disabled": false,
+                  "key": "interviews_only",
+                  "value": "0",
+                  "description": "1 = only interview episodes."
+                },
+                {
+                  "disabled": false,
+                  "key": "sponsored_only",
+                  "value": "0",
+                  "description": "1 = only sponsored content."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "10",
+                  "description": "Number of results per page (max 10 by default)."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8710eb11-d33e-4fc7-9f2f-f33cafdc8e2b",
+              "name": "Search results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by_date",
+                      "value": "0"
+                    },
+                    {
+                      "key": "type",
+                      "value": "episode"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "len_min",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "len_max",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "episode_count_min",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "episode_count_max",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "genre_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "published_before",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "published_after",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "only_in",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "language",
+                      "value": "Any language"
+                    },
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "safe_mode",
+                      "value": "0"
+                    },
+                    {
+                      "key": "unique_podcasts",
+                      "value": "0"
+                    },
+                    {
+                      "key": "interviews_only",
+                      "value": "0"
+                    },
+                    {
+                      "key": "sponsored_only",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "549e4417-884a-4586-8fbd-697528d0cc9f",
+          "name": "Typeahead search",
+          "request": {
+            "name": "Typeahead search",
+            "description": {
+              "content": "Suggest search terms, podcasts, and genres based on a partial query.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "typeahead"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "(Required) Search term."
+                },
+                {
+                  "disabled": false,
+                  "key": "show_podcasts",
+                  "value": "0",
+                  "description": "1 = include podcast suggestions."
+                },
+                {
+                  "disabled": false,
+                  "key": "show_genres",
+                  "value": "0",
+                  "description": "1 = include genre suggestions."
+                },
+                {
+                  "disabled": false,
+                  "key": "safe_mode",
+                  "value": "0",
+                  "description": "1 = exclude explicit content."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "969111c1-5478-4cfc-99cc-74b9c39cb799",
+              "name": "Typeahead suggestions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "typeahead"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "show_podcasts",
+                      "value": "0"
+                    },
+                    {
+                      "key": "show_genres",
+                      "value": "0"
+                    },
+                    {
+                      "key": "safe_mode",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "50e24f42-5b3e-48ed-a74f-61ab858ca9ab",
+          "name": "Search episodes by title",
+          "request": {
+            "name": "Search episodes by title",
+            "description": {
+              "content": "Find individual episodes by searching only their titles.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search_episode_titles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "(Required) Search term."
+                },
+                {
+                  "disabled": false,
+                  "key": "podcast_id",
+                  "value": "<string>",
+                  "description": "Restrict search to a single podcast id."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by_date",
+                  "value": "0",
+                  "description": "0 = relevance"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "10",
+                  "description": "Number of results per page."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5cdce732-6542-4e61-a42e-5a3ac37e4903",
+              "name": "Matching episodes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search_episode_titles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "podcast_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by_date",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "859766aa-39a5-4850-aa24-66d657866176",
+          "name": "Trending search terms",
+          "request": {
+            "name": "Trending search terms",
+            "description": {
+              "content": "Fetch up-to-date trending search terms on the Listen Notes platform.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trending_searches"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d214ac2b-a0a6-4e85-85af-f83870e47c3a",
+              "name": "Trending search terms.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trending_searches"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db334210-316f-4349-9378-b34d02b32667",
+          "name": "Related search terms",
+          "request": {
+            "name": "Related search terms",
+            "description": {
+              "content": "Fetch up-to-date related search terms for a given search term.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "related_searches"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "(Required) Search term."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3f29958a-7280-49da-9536-dcf11ecd4085",
+              "name": "Related search terms.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "related_searches"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5629c19d-4cda-482e-8d2b-81e10f28c0ee",
+          "name": "Spell check",
+          "request": {
+            "name": "Spell check",
+            "description": {
+              "content": "Suggest a spell-corrected version of a search term.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "spellcheck"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "(Required) Search term to spell check."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ffc078b8-482b-4d36-ae64-a5eeebbefe62",
+              "name": "Spell-check suggestions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spellcheck"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://listen-api.listennotes.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-ListenAPI-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ba0e5c7f-c374-4148-bb06-7f8c9c26237d",
+    "name": "Listen API: Podcast Search, Directory, and Insights Directory API Search API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Simple and no-nonsense podcast search and directory API from Listen Notes.\nFull-text search all podcasts and episodes by people, places, or topics;\nfetch podcast and episode metadata; browse best-podcasts charts, curated\nlists, and genres; retrieve recommendations; power typeahead autocomplete;\nand pull audience demographics. All requests are authenticated with an\n`X-ListenAPI-Key` request header. FREE, PRO, and ENTERPRISE plans are billed\non a per-request basis.\n\nThis document was authored by API Evangelist and grounded in the official\nListen API OpenAPI specification published at\nhttps://listen-api.listennotes.com/api/v2/openapi.yaml. Endpoints and\nparameters reflect the published specification.\n\n\nContact Support:\n Name: Listen Notes\n Email: hello@listennotes.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Listen API: Podcast Search, Directory, and Insights Directory API Playlist API API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-ListenAPI-Key",
+      "value": "{{X-ListenAPI-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Playlist API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch your playlists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listen-api.listennotes.com/api/v2/playlists",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "recent_added_first or recent_updated_first."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination."
+              }
+            ]
+          },
+          "docs": "Fetch a paginated list of your Listen Later playlists."
+        },
+        {
+          "info": {
+            "name": "Get a playlist by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://listen-api.listennotes.com/api/v2/playlists/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Playlist id."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "episode_list or podcast_list."
+              },
+              {
+                "name": "last_timestamp_ms",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp (ms) to paginate playlist items."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "recent_added_first or recent_updated_first."
+              }
+            ]
+          },
+          "docs": "Fetch a playlist's info and its items (episodes or podcasts) by id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

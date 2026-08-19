@@ -1,0 +1,350 @@
+{
+  "item": [
+    {
+      "id": "2c48b298-c73c-4018-9d9c-3841aca8b1b2",
+      "name": "Podcaster API",
+      "description": {
+        "content": "Endpoints to improve the podcast database.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c4276c28-f051-429d-a829-e7029a4691f6",
+          "name": "Request to delete a podcast",
+          "request": {
+            "name": "Request to delete a podcast",
+            "description": {
+              "content": "Request removal of a podcast from the Listen Notes database.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "podcasts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "reason",
+                  "value": "<string>",
+                  "description": "Reason for the deletion request."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Podcast id."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "87f44101-a052-4f75-aa42-721df8d71b7d",
+              "name": "Deletion request accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "podcasts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Podcast id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5d5fd272-333f-453b-b3b0-f3fd5fdaf75b",
+          "name": "Submit a podcast",
+          "request": {
+            "name": "Submit a podcast",
+            "description": {
+              "content": "Submit a podcast to the Listen Notes database by RSS feed URL.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "podcasts",
+                "submit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "rss",
+                  "value": "<string>",
+                  "description": "(Required) The RSS feed URL of the podcast."
+                },
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "Email to notify when the podcast is available."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7203ad95-13cc-4313-9a49-4e13fc7530bd",
+              "name": "Submission accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "podcasts",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The RSS feed URL of the podcast.",
+                        "type": "text/plain"
+                      },
+                      "key": "rss",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Email to notify when the podcast is available.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "58dc8678-dc50-42d9-b2ff-9c0a4d62f77a",
+          "name": "Refresh a podcast RSS feed",
+          "request": {
+            "name": "Refresh a podcast RSS feed",
+            "description": {
+              "content": "Force a refresh of a podcast's RSS feed to pull in the latest episodes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "podcasts",
+                ":id",
+                "rss"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Podcast id."
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3d21eb63-730b-4da0-a173-4dc76d67eee6",
+              "name": "Refresh accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "podcasts",
+                    ":id",
+                    "rss"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Podcast id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://listen-api.listennotes.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-ListenAPI-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1b9c21de-f0c4-4bbe-8854-62220784cf1b",
+    "name": "Listen API: Podcast Search, Directory, and Insights Directory API Podcaster API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Simple and no-nonsense podcast search and directory API from Listen Notes.\nFull-text search all podcasts and episodes by people, places, or topics;\nfetch podcast and episode metadata; browse best-podcasts charts, curated\nlists, and genres; retrieve recommendations; power typeahead autocomplete;\nand pull audience demographics. All requests are authenticated with an\n`X-ListenAPI-Key` request header. FREE, PRO, and ENTERPRISE plans are billed\non a per-request basis.\n\nThis document was authored by API Evangelist and grounded in the official\nListen API OpenAPI specification published at\nhttps://listen-api.listennotes.com/api/v2/openapi.yaml. Endpoints and\nparameters reflect the published specification.\n\n\nContact Support:\n Name: Listen Notes\n Email: hello@listennotes.com",
+      "type": "text/plain"
+    }
+  }
+}

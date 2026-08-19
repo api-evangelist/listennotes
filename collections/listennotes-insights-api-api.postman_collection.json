@@ -1,0 +1,237 @@
+{
+  "item": [
+    {
+      "id": "44a4ff7a-6215-49dc-8fd8-90c3a38f972c",
+      "name": "Insights API",
+      "description": {
+        "content": "Endpoints to get insights of podcasts, e.g., audience demographics.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4709ae27-acf4-4c92-a2f4-b18398d11731",
+          "name": "Podcast audience demographics",
+          "request": {
+            "name": "Podcast audience demographics",
+            "description": {
+              "content": "Fetch audience demographics and insights for a podcast by id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "podcasts",
+                ":id",
+                "audience"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Podcast id."
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e4f1f879-88a4-4058-b399-83830de195f0",
+              "name": "Audience demographics.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "podcasts",
+                    ":id",
+                    "audience"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Podcast id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "64a19c5c-e88b-4834-ae2c-fc37af947e8a",
+          "name": "Podcasts by publisher domain",
+          "request": {
+            "name": "Podcasts by publisher domain",
+            "description": {
+              "content": "Fetch podcasts associated with a publisher's domain name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "podcasts",
+                "domains",
+                ":domain_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain_name",
+                  "description": "(Required) Publisher domain name (e.g. nytimes.com)."
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5690997d-ecc2-4427-a616-db6fad3a6268",
+              "name": "Podcasts for the domain.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "podcasts",
+                    "domains",
+                    ":domain_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain_name",
+                      "description": "(Required) Publisher domain name (e.g. nytimes.com)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-ListenAPI-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://listen-api.listennotes.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-ListenAPI-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "de58283f-a1a0-4b3c-885c-1caaa5dd5994",
+    "name": "Listen API: Podcast Search, Directory, and Insights Directory API Insights API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Simple and no-nonsense podcast search and directory API from Listen Notes.\nFull-text search all podcasts and episodes by people, places, or topics;\nfetch podcast and episode metadata; browse best-podcasts charts, curated\nlists, and genres; retrieve recommendations; power typeahead autocomplete;\nand pull audience demographics. All requests are authenticated with an\n`X-ListenAPI-Key` request header. FREE, PRO, and ENTERPRISE plans are billed\non a per-request basis.\n\nThis document was authored by API Evangelist and grounded in the official\nListen API OpenAPI specification published at\nhttps://listen-api.listennotes.com/api/v2/openapi.yaml. Endpoints and\nparameters reflect the published specification.\n\n\nContact Support:\n Name: Listen Notes\n Email: hello@listennotes.com",
+      "type": "text/plain"
+    }
+  }
+}
