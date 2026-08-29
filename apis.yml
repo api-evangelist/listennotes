@@ -11,6 +11,18 @@ description: Listen Notes runs the largest podcast search engine and database, a
   publisher-domain insights. The API is served at
   https://listen-api.listennotes.com/api/v2 and authenticated with an X-ListenAPI-Key
   header, with FREE, PRO, and ENTERPRISE plans billed on a request basis.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
