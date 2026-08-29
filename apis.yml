@@ -140,6 +140,9 @@ apis:
   - type: OpenCollection
     url: collections/listennotes.opencollection.json
 common:
+- type: CapabilityMap
+  url: capabilities/listennotes-capability-edges.yml
+  name: Listen Notes Business Capability Map
 - type: AgenticAccess
   url: agentic-access/listennotes-agentic-access.yml
 - type: DomainSecurity

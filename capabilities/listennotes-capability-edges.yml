@@ -1,0 +1,35 @@
+slug: listennotes
+provider: Listen Notes
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Directory API
+  spec_file: listennotes-directory-api-api-openapi.yml
+  capability_id: BC-3710.20
+  capability_id_l1: BC-3710
+  capability_name: Metadata Cataloguing
+  confidence: 0.7
+  evidence: '''Get a podcast by id'', ''Fetch podcast genres'', ''Best podcasts by genre'', ''Fetch curated
+    lists of podcasts'''
+  reason: Serves descriptive metadata for podcasts and episodes plus genre taxonomy and curated collections
+    — a content catalogue/metadata capability. Could also read as on-demand catalogue curation (BC-3730.30);
+    metadata cataloguing is the closer fit for id-based metadata retrieval, hence 0.7 not higher.
+- tag: Insights API
+  spec_file: listennotes-insights-api-api-openapi.yml
+  capability_id: BC-3770.50
+  capability_id_l1: BC-3770
+  capability_name: Audience Insights & Research Management
+  confidence: 0.7
+  evidence: GET /podcasts/{id}/audience getPodcastAudience — 'Podcast audience demographics'
+  reason: Returns audience demographics for a podcast — audience research/insight data about content consumers.
+    Could arguably be content performance analytics; demographics point to audience insights, so 0.7.
