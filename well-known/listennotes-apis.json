@@ -1,0 +1,72 @@
+{
+  "aid": "listennotes.com:apis",
+  "name": "Listen Notes APIs",
+  "description": "Discover the Listen Notes Podcast API for podcast search, podcast and episode metadata, recommendations, playlists, and audience insights.",
+  "url": "https://www.listennotes.com/apis.json",
+  "created": "2026-09-28",
+  "modified": "2026-09-28",
+  "specificationVersion": "0.23",
+  "type": "Index",
+  "kind": "company",
+  "tags": ["Podcasts", "Podcast Search", "Podcast Data", "Audio"],
+  "apis": [
+    {
+      "aid": "listennotes.com:podcast-api",
+      "name": "Listen Notes Podcast API",
+      "description": "Search podcasts and episodes by keywords, people, places, or topics. Retrieve podcast and episode metadata, discover recommendations and popular podcasts, manage Listen Later playlists, and access podcast audience insights. Includes a FREE plan and a mock server for testing without an API key.",
+      "humanURL": "https://www.listennotes.com/api/",
+      "baseURL": "https://listen-api.listennotes.com/api/v2",
+      "version": "2.0",
+      "tags": ["Podcasts", "Podcast Search", "Podcast Data", "Audio", "Recommendations", "Playlists"],
+      "properties": [
+        {
+          "type": "Documentation",
+          "url": "https://www.listennotes.com/api/docs/"
+        },
+        {
+          "type": "OpenAPI",
+          "url": "https://listen-api.listennotes.com/api/v2/openapi.json"
+        },
+        {
+          "type": "GettingStarted",
+          "url": "https://www.listennotes.com/api/tutorials/"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://www.listennotes.com/api/pricing/"
+        },
+        {
+          "type": "ChangeLog",
+          "url": "https://www.listennotes.com/api/announcements/"
+        },
+        {
+          "type": "TermsOfService",
+          "url": "https://www.listennotes.com/api/terms/"
+        },
+        {
+          "type": "Support",
+          "url": "https://www.listennotes.com/contact/"
+        },
+        {
+          "type": "Documentation",
+          "name": "Podcast API documentation for AI agents",
+          "url": "https://www.podcastapi.com/llms-full.txt"
+        }
+      ],
+      "contact": [
+        {
+          "FN": "Listen Notes",
+          "email": "hello@listennotes.com",
+          "url": "https://www.listennotes.com/api/"
+        }
+      ]
+    }
+  ],
+  "maintainers": [
+    {
+      "FN": "Listen Notes",
+      "email": "hello@listennotes.com",
+      "url": "https://www.listennotes.com/"
+    }
+  ]
+}

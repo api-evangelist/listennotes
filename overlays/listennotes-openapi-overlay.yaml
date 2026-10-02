@@ -1,0 +1,9 @@
+generated: 2026-10-02
+method: derived
+source:
+  - url: https://listen-api.listennotes.com/api/v2/openapi.json
+    status: 200
+    note: original OpenAPI
+overlay:
+  version: 1.0.0
+  actions: []

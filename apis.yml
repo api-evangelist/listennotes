@@ -1,7 +1,11 @@
 aid: listennotes
+
 url: https://raw.githubusercontent.com/api-evangelist/listennotes/refs/heads/main/apis.yml
+
 name: Listen Notes
+
 kind: company
+
 description: Listen Notes runs the largest podcast search engine and database, and exposes it as the Listen
   API - a simple, no-nonsense podcast search, directory, and insights REST API. It lets developers full-text
   search millions of podcasts and episodes by people, places, and topics; fetch podcast and episode metadata;
@@ -9,6 +13,7 @@ description: Listen Notes runs the largest podcast search engine and database, a
   typeahead autocomplete; and pull audience demographics and publisher-domain insights. The API is served
   at https://listen-api.listennotes.com/api/v2 and authenticated with an X-ListenAPI-Key header, with
   FREE, PRO, and ENTERPRISE plans billed on a request basis.
+
 deliveryModel:
   model: saas
   open_source: false
@@ -21,6 +26,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -35,7 +41,9 @@ accessModel:
   - security
   generated: '2026-09-03'
   method: derived
+
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/listennotes.png
+
 tags:
 - Podcasts
 - Podcast Search
@@ -44,29 +52,92 @@ tags:
 - Audio
 - Media
 - Podcast Insights
+
 created: '2026-07-03'
+
 modified: '2026-09-16'
+
 specificationVersion: '0.23'
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+
+common:
+- type: Overlay
+  url: overlays/listennotes-openapi-overlay.yaml
+- type: Spectral
+  url: rules/listennotes-rules.yml
+- type: Vocabulary
+  url: vocabulary/listennotes-vocabulary.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Conformance
+  url: conformance/listennotes-conformance.yml
+- type: LLMsTxt
+  url: llms/listennotes-llms.txt
+- type: WellKnown
+  url: well-known/listennotes-well-known.yml
+- type: Hosts
+  url: hosts/listennotes-hosts.yml
+- type: Vendors
+  url: vendors/listennotes-vendors.yml
+- type: SDKs
+  url: packages/listennotes-packages.yml
+- type: Packages
+  url: packages/listennotes-packages.yml
+- type: TermsOfService
+  url: https://www.listennotes.com/terms/
+- type: Support
+  url: https://www.listennotes.com/help/
+- type: PrivacyPolicy
+  url: https://www.listennotes.com/privacy/
+- type: Pricing
+  url: https://www.listennotes.com/api/pricing/
+- type: Blog
+  url: https://www.listennotes.com/blog/
+- type: CapabilityMap
+  url: capabilities/listennotes-capability-edges.yml
+  name: Listen Notes Business Capability Map
+- type: AgenticAccess
+  url: agentic-access/listennotes-agentic-access.yml
+- type: DomainSecurity
+  url: security/listennotes-domain-security.yml
+- type: Authentication
+  url: authentication/listennotes-authentication.yml
+- type: GitHubOrganization
+  url: https://github.com/ListenNotes
+- type: LinkedIn
+  url: https://www.linkedin.com/company/listen-notes
+- type: Website
+  url: https://www.listennotes.com/api/
+- type: Documentation
+  url: https://www.listennotes.com/api/docs/
+- type: Plans
+  url: plans/listennotes-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/listennotes-rate-limits.yml
+- type: FinOps
+  url: finops/listennotes-finops.yml
+- type: APIsJSON
+  url: https://www.podcastapi.com/apis.json
+- type: APIsJSONWellKnown
+  url: https://www.podcastapi.com/.well-known/apis.json
+- type: ApiCatalog
+  url: https://www.podcastapi.com/.well-known/api-catalog
+- type: OpenAPI
+  url: https://listen-api.listennotes.com/api/v2/openapi.json
+- type: OpenAPIYaml
+  url: https://listen-api.listennotes.com/api/v2/openapi.yaml
+- type: LLMsTXT
+  url: https://www.podcastapi.com/llms.txt
+- type: LLMsFullTXT
+  url: https://www.podcastapi.com/llms-full.txt
+- type: SkillsRepo
+  url: https://github.com/PodcastAPI/skills
+
 apis:
-- aid: listennotes:listennotes-directory-api-api
-  name: Listen Notes Directory API
-  description: Endpoints to fetch podcasts, episodes, charts, and reference data.
-  humanURL: https://www.listennotes.com/api/docs/
-  baseURL: https://listen-api.listennotes.com/api/v2
-  tags:
-  - Directory API
-  properties:
-  - type: OpenAPI
-    url: openapi/listennotes-directory-api-api-openapi.yml
-  - type: Documentation
-    url: https://www.listennotes.com/api/docs/
-  - type: APIReference
-    url: https://www.listennotes.com/api/docs/
-  - type: PostmanCollection
-    url: collections/listennotes.postman_collection.json
-  - type: OpenCollection
-    url: collections/listennotes.opencollection.json
-- aid: listennotes:listennotes-insights-api-api
+- aid: listennotes:insights-api
   name: Listen Notes Insights API
   description: Endpoints to get insights of podcasts, e.g., audience demographics.
   humanURL: https://www.listennotes.com/api/docs/
@@ -84,7 +155,7 @@ apis:
     url: collections/listennotes.postman_collection.json
   - type: OpenCollection
     url: collections/listennotes.opencollection.json
-- aid: listennotes:listennotes-playlist-api-api
+- aid: listennotes:playlist-api
   name: Listen Notes Playlist API
   description: Endpoints to fetch Listen Later playlists data.
   humanURL: https://www.listennotes.com/api/docs/
@@ -138,35 +209,32 @@ apis:
     url: collections/listennotes.postman_collection.json
   - type: OpenCollection
     url: collections/listennotes.opencollection.json
-common:
-- type: CapabilityMap
-  url: capabilities/listennotes-capability-edges.yml
-  name: Listen Notes Business Capability Map
-- type: AgenticAccess
-  url: agentic-access/listennotes-agentic-access.yml
-- type: DomainSecurity
-  url: security/listennotes-domain-security.yml
-- type: Authentication
-  url: authentication/listennotes-authentication.yml
-- type: GitHubOrganization
-  url: https://github.com/ListenNotes
-- type: LinkedIn
-  url: https://www.linkedin.com/company/listen-notes
-- type: Website
-  url: https://www.listennotes.com/api/
-- type: Documentation
-  url: https://www.listennotes.com/api/docs/
-- type: Plans
-  url: plans/listennotes-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/listennotes-rate-limits.yml
-- type: FinOps
-  url: finops/listennotes-finops.yml
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+- aid: listennotes:listennotes-directory-api-api
+  name: Listen Notes Directory API
+  description: Endpoints to fetch podcasts, episodes, charts, and reference data.
+  humanURL: https://www.listennotes.com/api/docs/
+  baseURL: https://listen-api.listennotes.com/api/v2
+  tags:
+  - Directory API
+  properties:
+  - type: OpenAPI
+    url: openapi/listennotes-directory-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.listennotes.com/api/docs/
+  - type: APIReference
+    url: https://www.listennotes.com/api/docs/
+  - type: PostmanCollection
+    url: collections/listennotes.postman_collection.json
+  - type: OpenCollection
+    url: collections/listennotes.opencollection.json
 x-correction-request:
   requested: '2026-10-02'
   source:
   - https://github.com/api-evangelist/listennotes/issues/1
   request: 'Issue #1 (wenbinf, Listen Notes founder), verified live 2026-10-02. Keep this as the ONE Listen Notes provider (aid listennotes); do NOT create a separate PodcastAPI.com provider - podcastapi.com is Listen Notes'' official API site for the same Listen API v2. All of these return 200 (invented paths on podcastapi.com return a real 404): APIs.json https://www.podcastapi.com/apis.json and /.well-known/apis.json (aid podcastapi.com:apis, one API listennotes.com:podcast-api, baseURL https://listen-api.listennotes.com/api/v2); RFC 9727 api-catalog https://www.podcastapi.com/.well-known/api-catalog (linkset; service-desc -> openapi.json, service-meta -> apis.json); OpenAPI https://listen-api.listennotes.com/api/v2/openapi.json and openapi.yaml (OpenAPI 3.1.0, ''Listen API: Podcast Search, Directory, and Insights API'' v2.0, 27 paths, tags Search API, Directory API, Playlist API, Podcaster API, Insights API); llms.txt and llms-full.txt at https://www.podcastapi.com/; official agent skills repo https://github.com/PodcastAPI/skills (skills/, evals/, .claude-plugin). Re-pull openapi/ from the official openapi.yaml/json URL (record the source URL on each derived file), regenerate collections from it, add APIs.json / api-catalog / llms.txt / skills pointers. Fix the doubled names: the per-tag split produced titles and slugs like ''Directory API API'' (listennotes-directory-api-api-*); the five groups are tags of one Listen API v2 spec, so either model it as one API or name the splits without the repeated ''API''. Supporting links (all 200): https://www.listennotes.com/api/, /api/docs/, /api/pricing/.'
+x-enrichment:
+  date: '2026-10-02'
+  status: enriched
+  artifacts_added: 24
+  pass: modular-v1
+  engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local

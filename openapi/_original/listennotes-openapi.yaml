@@ -1,0 +1,16 @@
+# x-archived-from: listennotes-openapi.yaml
+# x-archived-on: 2026-10-02
+openapi: "3.1.0"
+info:
+  title: "Listen API: Podcast Search, Directory, and Insights API"
+  description: "Simple & no-nonsense podcast search & directory API."
+  termsOfService: "https://www.listennotes.com/api/terms/"
+  contact:
+    name: "Listen Notes"
+    url: "https://www.listennotes.com/api/"
+    email: "hello@listennotes.com"
+  version: "2.0"
+servers:
+  - url: "https://listen-api.listennotes.com/api/v2"
+    description: "API Production Server"
+paths: {}

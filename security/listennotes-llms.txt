@@ -1,0 +1,3 @@
+# PodcastAPI.com
+
+> The Listen Notes Podcast API provides podcast and episode search, directory metadata, discovery, playlist curation as a headless CMS, and audience insights for server-side applicat

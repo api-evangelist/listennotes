@@ -1,0 +1,18 @@
+generated: '2026-10-02'
+method: generated
+generator: extract-docs-artifacts.py skills (local)
+source: openapi/listennotes-directory-api-api-openapi.yml
+skills:
+- file: skills/listennotes-fetch-podcast-details.md
+  name: listennotes-fetch-podcast-details
+  api: openapi/listennotes-directory-api-api-openapi.yml
+  operations:
+  - getPodcastById
+  - getEpisodeById
+- file: skills/listennotes-manage-podcast.md
+  name: listennotes-manage-podcast
+  api: openapi/listennotes-podcaster-api-api-openapi.yml
+  operations:
+  - submitPodcast
+  - refreshPodcastRss
+  - deletePodcastById

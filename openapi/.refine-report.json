@@ -1,7 +1,8 @@
 {
   "provider": "listennotes",
   "sources": [
-    "_original/listennotes-openapi.yml"
+    "_original/listennotes-openapi.yml",
+    "listennotes-openapi.yaml"
   ],
   "outputs": [
     "listennotes-directory-api-api-openapi.yml",
@@ -10,13 +11,16 @@
     "listennotes-podcaster-api-api-openapi.yml",
     "listennotes-search-api-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "archived openapi/listennotes-openapi.yaml"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "listennotes-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "listennotes-openapi.yaml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+1 apis, 5 total)"
   ],
   "skipped": [
     "listennotes-directory-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",

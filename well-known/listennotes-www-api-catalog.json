@@ -1,0 +1,34 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://www.podcastapi.com/.well-known/api-catalog",
+      "item": [
+        {
+          "href": "https://listen-api.listennotes.com/api/v2",
+          "title": "Listen Notes Podcast API"
+        }
+      ]
+    },
+    {
+      "anchor": "https://listen-api.listennotes.com/api/v2",
+      "service-desc": [
+        {
+          "href": "https://listen-api.listennotes.com/api/v2/openapi.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://www.listennotes.com/api/docs/",
+          "type": "text/html"
+        }
+      ],
+      "service-meta": [
+        {
+          "href": "https://www.podcastapi.com/apis.json",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

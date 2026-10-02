@@ -1,0 +1,40 @@
+generated: '2026-10-02'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/listennotes-directory-api-api-openapi.yml
+- openapi/listennotes-insights-api-api-openapi.yml
+- openapi/listennotes-openapi.yaml
+- openapi/listennotes-playlist-api-api-openapi.yml
+- openapi/listennotes-podcaster-api-api-openapi.yml
+vocabulary:
+  name: Listen Notes Domain Vocabulary
+  description: 'Terms declared by Listen Notes''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-02'
+  terms:
+  - term: Directory API
+    definition: Endpoints to fetch podcasts, episodes, charts, and reference data.
+    tags:
+    - Resource Group
+    source: openapi/listennotes-directory-api-api-openapi.yml
+  - term: Insights API
+    definition: Endpoints to get insights of podcasts, e.g., audience demographics.
+    tags:
+    - Resource Group
+    source: openapi/listennotes-insights-api-api-openapi.yml
+  - term: Playlist API
+    definition: Endpoints to fetch Listen Later playlists data.
+    tags:
+    - Resource Group
+    source: openapi/listennotes-playlist-api-api-openapi.yml
+  - term: Podcaster API
+    definition: Endpoints to improve the podcast database.
+    tags:
+    - Resource Group
+    source: openapi/listennotes-podcaster-api-api-openapi.yml
+  - term: Search API
+    definition: Endpoints to search podcasts and episodes.
+    tags:
+    - Resource Group
+    source: openapi/listennotes-search-api-api-openapi.yml

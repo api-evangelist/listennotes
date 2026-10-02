@@ -1,0 +1,10 @@
+generated: '2026-10-02'
+method: probed
+source:
+  - url: https://listen-api.listennotes.com/mcp
+    status: 200
+    note: redirected to docs, no MCP server found
+deployment:
+  mode: none
+  auth: none
+  verified: probed

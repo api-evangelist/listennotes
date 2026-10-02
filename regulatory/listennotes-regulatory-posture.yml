@@ -1,0 +1,13 @@
+generated: '2026-10-02'
+method: searched
+source: https://www.listennotes.com/privacy/
+signals:
+  data_subject_request:
+    url: https://www.listennotes.com/privacy/
+    section: "Privacy Policy"
+    note: Users retain rights and any reduction requires explicit consent.
+    evidence:
+      - source: https://www.listennotes.com/privacy/
+        http_status: 200
+        fetched: /tmp/privacy_page.html
+        quote: "We will not reduce your rights under this Privacy Policy without your explicit consent."

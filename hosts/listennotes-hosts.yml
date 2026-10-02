@@ -1,0 +1,242 @@
+generated: '2026-10-02'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 19
+  own: 12
+  other_domain: 5
+  platform: 2
+  roles:
+  - api
+  - data
+  - docs
+  - other
+  - source
+  - status
+  - support
+  - website
+hosts:
+- host: ai.listennotes.com
+  found_by:
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: listennotes.com
+  role: other
+  relation: own
+- host: api.listennotes.com
+  found_by:
+  - probed
+  - site-links
+  - namespace-probe
+  types: []
+  serves: []
+  status: 200
+  registrable_domain: listennotes.com
+  role: api
+  relation: own
+- host: api.podcastapi.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: podcastapi.com
+  role: api
+  relation: other-domain
+- host: brand-assets.listennotes.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: listennotes.com
+  role: other
+  relation: own
+- host: broadcast.listennotes.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: listennotes.com
+  role: other
+  relation: own
+- host: changelog.listennotes.com
+  found_by:
+  - probed
+  - site-links
+  - docs-index
+  - well-known
+  types: []
+  serves:
+  - docs
+  registrable_domain: listennotes.com
+  role: other
+  relation: own
+- host: data.listennotes.com
+  found_by:
+  - probed
+  - site-links
+  - namespace-probe
+  types: []
+  serves: []
+  title: Podcast Datasets / Podcast Database Quickstarts - Listen Notes Help Center
+  status: 200
+  registrable_domain: listennotes.com
+  role: data
+  relation: own
+- host: docs.podcastapi.com
+  found_by:
+  - probed
+  - site-links
+  - namespace-probe
+  types: []
+  serves: []
+  status: 200
+  registrable_domain: podcastapi.com
+  role: docs
+  relation: other-domain
+- host: github.com
+  found_by:
+  - pointer
+  - docs-index
+  types:
+  - GitHubOrganization
+  - SkillsRepo
+  serves:
+  - docs
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: help.listennotes.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: listennotes.com
+  role: support
+  relation: own
+- host: listen-api.listennotes.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - spec-found
+  - contract-discovery
+  - well-known
+  types:
+  - OpenAPI
+  - OpenAPIYaml
+  serves:
+  - api
+  - docs
+  - spec
+  registrable_domain: listennotes.com
+  role: other
+  relation: own
+- host: podigest.listennotes.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: listennotes.com
+  role: other
+  relation: own
+- host: production.listennotes.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: listennotes.com
+  role: other
+  relation: own
+- host: status.listennotes.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: listennotes.com
+  role: status
+  relation: own
+- host: www.kaggle.com
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: kaggle.com
+  role: other
+  relation: other-domain
+- host: www.linkedin.com
+  found_by:
+  - pointer
+  types:
+  - LinkedIn
+  serves: []
+  registrable_domain: linkedin.com
+  role: other
+  relation: platform
+- host: www.listennotes.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - TermsOfService
+  - Support
+  - PrivacyPolicy
+  - Pricing
+  - Blog
+  - Website
+  - Documentation
+  serves:
+  - docs
+  - cdn
+  vendor: cloudflare
+  registrable_domain: listennotes.com
+  role: website
+  relation: own
+- host: www.listennotes.help
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: listennotes.help
+  role: other
+  relation: other-domain
+- host: www.podcastapi.com
+  found_by:
+  - pointer
+  - probed
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - APIsJSON
+  - APIsJSONWellKnown
+  - ApiCatalog
+  - LLMsTXT
+  - LLMsFullTXT
+  serves:
+  - docs
+  registrable_domain: podcastapi.com
+  role: other
+  relation: other-domain
