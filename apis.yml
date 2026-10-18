@@ -197,6 +197,8 @@ apis:
   humanURL: https://www.listennotes.com/api/docs/
   baseURL: https://listen-api.listennotes.com/api/v2
   tags:
+  - SERP
+  tags_raw:
   - Search API
   properties:
   - type: OpenAPI
