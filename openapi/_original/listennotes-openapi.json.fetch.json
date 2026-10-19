@@ -1,0 +1,12 @@
+{
+ "url": "https://listen-api.listennotes.com/api/v2/openapi.json",
+ "final": "https://listen-api.listennotes.com/api/v2/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 196278,
+ "sha256": "115e315d1855ba9e9cf8b22a6496802a9f1a185cab99b0dfff3a51d2e4c802e2",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

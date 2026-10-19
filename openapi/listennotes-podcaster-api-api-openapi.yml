@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Listen API: Podcast Search, Directory, and Insights…'
-  description: Simple and no-nonsense podcast search and directory API from Listen Notes.
+  description: Simple & no-nonsense podcast search & directory API. Search all podcasts and episodes by people, places, or topics.
   termsOfService: https://www.listennotes.com/api/terms/
   contact:
     name: Listen Notes
@@ -12,78 +12,318 @@ servers:
 - url: https://listen-api.listennotes.com/api/v2
   description: API Production Server
 security:
-- apiKeyHeader: []
+- ListenApiKey: []
 tags:
 - name: Podcaster API
-  description: Endpoints to improve the podcast database.
+  description: Endpoints to improve the podcast database
 paths:
   /podcasts/{id}:
     delete:
       tags:
       - Podcaster API
       summary: Request to delete a podcast
-      description: Request removal of a podcast from the Listen Notes database.
+      description: 'Podcast hosting services can use this endpoint to streamline the process of podcast deletion on behave of their users (podcasters). We will review the deletion request within 12 hours. If the podcast is already deleted, the "status" field in the response will be "deleted". Otherwise, the status field will be "in review". If you want to get a notification once the podcast is deleted, you can configure a webhook url in the dashboard: listennotes.com/api/dashboard/#webhooks'
       operationId: deletePodcastById
       parameters:
       - name: id
         in: path
+        description: Podcast id. You can get podcast id from using other endpoints, e.g., `GET /search`, `GET /best_podcasts`...
         required: true
-        description: Podcast id.
+        style: simple
+        explode: false
         schema:
           type: string
+        example: 4d3fe717742d4963a85562e9f84d8c79
       - name: reason
         in: query
-        description: Reason for the deletion request.
+        description: The reason why this podcast should be deleted, e.g., copyright violation, the podcaster wants to delete it... You can put "testing" here to indicate that you are testing this endpoint, so we will not actually delete the podcast.
+        required: false
+        style: form
+        explode: true
         schema:
           type: string
+        example: the podcaster wants to delete it
       responses:
         '200':
-          description: Deletion request accepted.
+          description: OK
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletePodcastResponse'
+              example:
+                status: in review
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
   /podcasts/submit:
     post:
       tags:
       - Podcaster API
-      summary: Submit a podcast
-      description: Submit a podcast to the Listen Notes database by RSS feed URL.
+      summary: Submit a podcast to Listen Notes database
+      description: 'Podcast hosting services can use this endpoint to help your users directly submit a new podcast to Listen Notes database. If the podcast doesn''t exist in the database, "status" in the response will be "in review", and we''ll review it within 12 hours. If the podcast exists, "status" in the response will be "found". If this submission is rejected, "status" in the response will be "rejected". You can use `POST /podcasts` to check if multiple podcasts exist in the database. If you want to get a notification once the podcast is accepted, you can either specify the "email" parameter or configure a webhook url in the dashboard: listennotes.com/api/dashboard/#webhooks'
       operationId: submitPodcast
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              properties:
-                rss:
-                  type: string
-                  description: The RSS feed URL of the podcast.
-                email:
-                  type: string
-                  description: Email to notify when the podcast is available.
-              required:
-              - rss
+              $ref: '#/components/schemas/SubmitPodcastForm'
+        required: true
       responses:
         '200':
-          description: Submission accepted.
+          description: OK
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitPodcastResponse'
+              example:
+                status: in review
+                podcast: {}
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
   /podcasts/{id}/rss:
     post:
       tags:
       - Podcaster API
-      summary: Refresh a podcast RSS feed
-      description: Force a refresh of a podcast's RSS feed to pull in the latest episodes.
-      operationId: refreshPodcastRss
+      summary: Refresh RSS feed of a podcast
+      description: 'Refresh a podcast''s RSS feed. Each podcast is limited to one refresh per hour.
+
+        Refresh durations range from a few seconds to several minutes, contingent on the RSS feed size and server responsiveness.
+
+        This endpoint is available only in the PRO/ENTERPRISE plan.'
+      operationId: refreshRss
       parameters:
       - name: id
         in: path
+        description: Podcast id. You can get podcast id from using other endpoints, e.g., `GET /search`, `GET /best_podcasts`...
         required: true
-        description: Podcast id.
+        style: simple
+        explode: false
         schema:
           type: string
+        example: 4d3fe717742d4963a85562e9f84d8c79
       responses:
         '200':
-          description: Refresh accepted.
+          description: OK
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshRssResponse'
+              example:
+                status: refreshing
+                last_refreshed_at_ms: 1595567004958
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
 components:
+  responses:
+    NotFound:
+      description: Endpoint not exist, or podcast / episode not exist.
+    ServerError:
+      description: Something wrong on our end (Unexpected server errors).
+    Unauthorized:
+      description: Wrong api key, or your account is suspended.
+    BadRequest:
+      description: Something wrong on your end (Client side errors), e.g., missing required parameters.
+    TooManyRequests:
+      description: For FREE plan, exceeding the quota limit; or for all plans, sending too many requests too fast and exceeding the rate limit.
+  schemas:
+    PodcastLNUrlField:
+      type: string
+      description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+      example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+    ListenScoreGlobalRankField:
+      type: string
+      description: 'The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
+
+        For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
+
+        If the ranking is not available, it''ll be null. Learn more at listennotes.com/listen-score
+
+        '
+      example: 0.5%
+    PodcastMinimum:
+      type: object
+      properties:
+        image:
+          $ref: '#/components/schemas/ImageField'
+        thumbnail:
+          $ref: '#/components/schemas/ThumbnailField'
+        title:
+          $ref: '#/components/schemas/PodcastNameField'
+        listennotes_url:
+          $ref: '#/components/schemas/PodcastLNUrlField'
+        id:
+          $ref: '#/components/schemas/PodcastIdField'
+        publisher:
+          $ref: '#/components/schemas/PublisherField'
+        listen_score:
+          $ref: '#/components/schemas/ListenScoreField'
+        listen_score_global_rank:
+          $ref: '#/components/schemas/ListenScoreGlobalRankField'
+    SubmitPodcastResponse:
+      required:
+      - podcast
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of this submission.
+          enum:
+          - found
+          - in review
+          - rejected
+          example: found
+        podcast:
+          $ref: '#/components/schemas/PodcastMinimum'
+    PodcastIdField:
+      type: string
+      description: Podcast id, which can be used to further fetch detailed podcast metadata via `GET /podcasts/{id}`.
+      example: 4d3fe717742d4963a85562e9f84d8c79
+    ImageField:
+      type: string
+      description: 'Image url for this podcast''s artwork. If you are using PRO/ENTERPRISE plan, then it''s
+
+        a high resolution image (1400x1400). If you are using FREE plan, then it''s the same as **thumbnail**,
+
+        low resolution image (300x300).
+
+        '
+      example: https://cdn-images-3.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+    DeletePodcastResponse:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of this podcast deletion request.
+          enum:
+          - deleted
+          - in review
+          example: deleted
+    RefreshRssResponse:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the rss refreshing request.
+          enum:
+          - refreshing
+          - refreshed
+        last_refreshed_at_ms:
+          type: integer
+          description: The timestamp when the rss was last refreshed. It is an Epoch Unix timestamp in milliseconds.
+    ThumbnailField:
+      type: string
+      description: Thumbnail image url for this podcast's artwork (300x300).
+      example: https://cdn-images-3.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+    ListenScoreField:
+      type: integer
+      description: 'The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
+
+        If the score is not available, it''ll be null. Learn more at listennotes.com/listen-score
+
+        '
+      example: 81
+    PublisherField:
+      type: string
+      description: Podcast publisher name.
+      example: Planet Broadcasting
+    PodcastNameField:
+      type: string
+      description: Podcast name.
+      example: Star Wars 7x7 | Star Wars News, Interviews, and More!
+    SubmitPodcastForm:
+      required:
+      - rss
+      type: object
+      properties:
+        rss:
+          type: string
+          description: A valid podcast rss url.
+          example: https://feeds.megaphone.fm/committed
+        email:
+          type: string
+          description: A valid email address. If **email** is specified, then we'll notify this email address once the podcast is accepted.
+          example: hello@example.com
+  headers:
+    X-ListenAPI-Usage:
+      description: The number of API requests that you've used in current billing cycle.
+      style: simple
+      explode: false
+      schema:
+        type: integer
+        example: 19231
+    X-listenAPI-Latency-Seconds:
+      description: Latency for this api call, in seconds.
+      style: simple
+      explode: false
+      schema:
+        type: number
+        example: 0.056
+    X-ListenAPI-NextBillingDate:
+      description: The timestamp for the start of next billing cycle. In ISO 8601 format.
+      style: simple
+      schema:
+        type: string
+        format: date-time
+        example: '2020-04-26T17:27:33.110641+00:00'
+    X-ListenAPI-FreeQuota:
+      description: Free quotas of API requests included in your api plan.
+      style: simple
+      explode: false
+      schema:
+        type: integer
+        example: 25000
   securitySchemes:
-    apiKeyHeader:
+    ListenApiKey:
       type: apiKey
       in: header
       name: X-ListenAPI-Key
-      description: Your Listen API key, sent in the X-ListenAPI-Key request header.
+      description: Get your API key at https://www.listennotes.com/api/dashboard/. Team keys act as the API admin.

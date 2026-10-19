@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Listen API: Podcast Search, Directory, and Insights…'
-  description: Simple and no-nonsense podcast search and directory API from Listen Notes.
+  description: Simple & no-nonsense podcast search & directory API. Search all podcasts and episodes by people, places, or topics.
   termsOfService: https://www.listennotes.com/api/terms/
   contact:
     name: Listen Notes
@@ -12,55 +12,452 @@ servers:
 - url: https://listen-api.listennotes.com/api/v2
   description: API Production Server
 security:
-- apiKeyHeader: []
+- ListenApiKey: []
 tags:
 - name: Insights API
-  description: Endpoints to get insights of podcasts, e.g., audience demographics.
+  description: Endpoints to get insights of podcasts, e.g., audience demographics
 paths:
   /podcasts/{id}/audience:
     get:
       tags:
       - Insights API
-      summary: Podcast audience demographics
-      description: Fetch audience demographics and insights for a podcast by id.
+      summary: Fetch audience demographics for a podcast
+      description: Fetch audience demographics for a podcast - 1) directly measured on the Listen Notes platform; 2) only supports audience breakdown by regions for now; 3) not every podcast has data.
       operationId: getPodcastAudience
       parameters:
       - name: id
         in: path
-        required: true
         description: Podcast id.
+        required: true
+        style: simple
+        explode: false
         schema:
           type: string
+        example: 25212ac3c53240a880dd5032e547047b
       responses:
         '200':
-          description: Audience demographics.
+          description: OK
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PodcastAudienceResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
   /podcasts/domains/{domain_name}:
     get:
       tags:
       - Insights API
-      summary: Podcasts by publisher domain
-      description: Fetch podcasts associated with a publisher's domain name.
-      operationId: getPodcastsByDomain
+      summary: Fetch podcasts by a publisher's domain name
+      description: 'Fetch podcasts by a publisher''s domain name, e.g., nytimes.com, wondery.com, npr.org...
+
+        Each request will return up to 10 podcasts. You can use the `page` parameter to paginate.'
+      operationId: getPodcastsByDomainName
       parameters:
       - name: domain_name
         in: path
+        description: A publisher's domain name, e.g., nytimes.com, wondery.com, npr.org...
         required: true
-        description: Publisher domain name (e.g. nytimes.com).
+        style: simple
+        explode: false
         schema:
           type: string
+        example: nytimes.com
       - name: page
         in: query
-        description: Page number for pagination.
+        description: Page number of the podcasts from this domain name
+        required: false
         schema:
           type: integer
+          example: 1
           default: 1
       responses:
         '200':
-          description: Podcasts for the domain.
+          description: OK
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PodcastDomainResponse'
+          links:
+            paginate:
+              operationId: getPodcastsByDomainName
+              parameters:
+                page: $response.body#/next_page_number
+              description: Pagination through podcasts.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
 components:
+  responses:
+    NotFound:
+      description: Endpoint not exist, or podcast / episode not exist.
+    ServerError:
+      description: Something wrong on our end (Unexpected server errors).
+    Unauthorized:
+      description: Wrong api key, or your account is suspended.
+    TooManyRequests:
+      description: For FREE plan, exceeding the quota limit; or for all plans, sending too many requests too fast and exceeding the rate limit.
+  schemas:
+    PodcastLNUrlField:
+      type: string
+      description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+      example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+    ListenScoreGlobalRankField:
+      type: string
+      description: 'The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
+
+        For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
+
+        If the ranking is not available, it''ll be null. Learn more at listennotes.com/listen-score
+
+        '
+      example: 0.5%
+    UpdateFrequencyHoursField:
+      type: integer
+      description: How frequently does this podcast release a new episode? In hours. For example, if the value is 166, then it's every 166 hours (or weekly).
+      example: 168
+    PodcastAudienceResponse:
+      type: object
+      properties:
+        by_regions:
+          type: array
+          items:
+            type: object
+            properties:
+              region:
+                type: string
+                description: 2-letter country code of a region.
+                example: us
+              ratio:
+                type: string
+                description: percentage of audience from this specific region
+                example: 20.22%
+    ImageField:
+      type: string
+      description: 'Image url for this podcast''s artwork. If you are using PRO/ENTERPRISE plan, then it''s
+
+        a high resolution image (1400x1400). If you are using FREE plan, then it''s the same as **thumbnail**,
+
+        low resolution image (300x300).
+
+        '
+      example: https://cdn-images-3.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+    PodcastIdField:
+      type: string
+      description: Podcast id, which can be used to further fetch detailed podcast metadata via `GET /podcasts/{id}`.
+      example: 4d3fe717742d4963a85562e9f84d8c79
+    LatestPubDateMsField:
+      type: integer
+      description: The published date of the latest episode of this podcast. It is an Epoch Unix timestamp in milliseconds.
+      example: 1557499770000
+    RssField:
+      type: string
+      description: RSS url of this podcast. This field is available only in the PRO/ENTERPRISE plan.
+      example: https://sw7x7.libsyn.com/rss
+    GenreIdsField:
+      type: array
+      example:
+      - 138
+      - 86
+      - 160
+      - 68
+      - 82
+      - 100
+      - 101
+      items:
+        type: integer
+        description: Genre ids.
+    TotalEpisodesField:
+      type: integer
+      description: Total number of episodes in this podcast.
+      example: 324
+    HasGuestInterviewsField:
+      type: boolean
+      description: Whether this podcast has guest interviews.
+      example: false
+    PodcastTypeField:
+      type: string
+      description: The type of this podcast - episodic or serial.
+      example: episodic
+      enum:
+      - episodic
+      - serial
+    WebsiteField:
+      type: string
+      description: Website url of this podcast.
+      example: http://sw7x7.com/
+    PodcastExtraField:
+      type: object
+      properties:
+        youtube_url:
+          type: string
+          description: YouTube url affiliated with this podcast
+          example: https://www.youtube.com/sw7x7
+        facebook_handle:
+          type: string
+          description: Facebook username affiliated with this podcast
+          example: sw7x7
+        instagram_handle:
+          type: string
+          description: Instagram username affiliated with this podcast
+          example: sw7x7
+        twitter_handle:
+          type: string
+          description: Twitter username affiliated with this podcast
+          example: SW7x7podcast
+        wechat_handle:
+          type: string
+          description: WeChat username affiliated with this podcast
+        patreon_handle:
+          type: string
+          description: Patreon username affiliated with this podcast
+          example: sw7x7
+        amazon_music_url:
+          type: string
+          description: Amazon Music url for this podcast
+          example: https://music.amazon.com/podcasts/6fc6d683-9ef3-4850-9c35-8e8b1a42a147/the-lock-sportscast
+        linkedin_url:
+          type: string
+          description: LinkedIn url affiliated with this podcast
+        spotify_url:
+          type: string
+          description: Spotify url for this podcast
+          example: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+        url1:
+          type: string
+          description: Url affiliated with this podcast
+        url2:
+          type: string
+          description: Url affiliated with this podcast
+        url3:
+          type: string
+          description: Url affiliated with this podcast
+    PodcastDescriptionField:
+      type: string
+      description: Html of this episode's full description
+      example: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star Wars news, history, interviews, trivia, and deep dives into the Star Wars story as told in movies, books, comics, games, cartoons, and more. Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed!</p>
+    ThumbnailField:
+      type: string
+      description: Thumbnail image url for this podcast's artwork (300x300).
+      example: https://cdn-images-3.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+    EarliestPubDateMsField:
+      type: integer
+      description: The published date of the oldest episode of this podcast. It is an Epoch Unix timestamp in milliseconds.
+      example: 1470667902000
+    EmailField:
+      type: string
+      description: The email of this podcast's producer. This field is available only in the PRO/ENTERPRISE plan.
+      example: hello@example.com
+    ListenScoreField:
+      type: integer
+      description: 'The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
+
+        If the score is not available, it''ll be null. Learn more at listennotes.com/listen-score
+
+        '
+      example: 81
+    AvgAudioLengthSecField:
+      type: integer
+      description: Average audio length of all episodes of this podcast. In seconds.
+      example: 1291
+    HasSponsorsField:
+      type: boolean
+      description: Whether this podcast has sponsors.
+      example: false
+    iTunesIdField:
+      type: integer
+      description: iTunes id for this podcast.
+      example: 896354638
+    PodcastLookingForField:
+      type: object
+      properties:
+        cohosts:
+          type: boolean
+          description: Whether this podcast is looking for cohosts.
+          example: true
+        cross_promotion:
+          type: boolean
+          description: Whether this podcast is looking for cross promotion opportunities with other podcasts.
+          example: true
+        sponsors:
+          type: boolean
+          description: Whether this podcast is looking for sponsors.
+          example: true
+        guests:
+          type: boolean
+          description: Whether this podcast is looking for guests.
+          example: true
+    IsClaimedField:
+      type: boolean
+      description: Whether this podcast is claimed by its producer on [ListenNotes.com](https://www.ListenNotes.com).
+      example: true
+    PublisherField:
+      type: string
+      description: Podcast publisher name.
+      example: Planet Broadcasting
+    PodcastSimple:
+      type: object
+      properties:
+        is_claimed:
+          $ref: '#/components/schemas/IsClaimedField'
+        type:
+          $ref: '#/components/schemas/PodcastTypeField'
+        explicit_content:
+          $ref: '#/components/schemas/ExplicitField'
+        website:
+          $ref: '#/components/schemas/WebsiteField'
+        total_episodes:
+          $ref: '#/components/schemas/TotalEpisodesField'
+        audio_length_sec:
+          $ref: '#/components/schemas/AvgAudioLengthSecField'
+        update_frequency_hours:
+          $ref: '#/components/schemas/UpdateFrequencyHoursField'
+        earliest_pub_date_ms:
+          $ref: '#/components/schemas/EarliestPubDateMsField'
+        rss:
+          $ref: '#/components/schemas/RssField'
+        latest_episode_id:
+          $ref: '#/components/schemas/LatestEpisodeIdField'
+        latest_pub_date_ms:
+          $ref: '#/components/schemas/LatestPubDateMsField'
+        title:
+          $ref: '#/components/schemas/PodcastNameField'
+        language:
+          $ref: '#/components/schemas/LanguageField'
+        description:
+          $ref: '#/components/schemas/PodcastDescriptionField'
+        email:
+          $ref: '#/components/schemas/EmailField'
+        image:
+          $ref: '#/components/schemas/ImageField'
+        thumbnail:
+          $ref: '#/components/schemas/ThumbnailField'
+        listennotes_url:
+          $ref: '#/components/schemas/PodcastLNUrlField'
+        id:
+          $ref: '#/components/schemas/PodcastIdField'
+        country:
+          $ref: '#/components/schemas/CountryField'
+        publisher:
+          $ref: '#/components/schemas/PublisherField'
+        itunes_id:
+          $ref: '#/components/schemas/iTunesIdField'
+        looking_for:
+          $ref: '#/components/schemas/PodcastLookingForField'
+        extra:
+          $ref: '#/components/schemas/PodcastExtraField'
+        genre_ids:
+          $ref: '#/components/schemas/GenreIdsField'
+        listen_score:
+          $ref: '#/components/schemas/ListenScoreField'
+        listen_score_global_rank:
+          $ref: '#/components/schemas/ListenScoreGlobalRankField'
+        has_guest_interviews:
+          $ref: '#/components/schemas/HasGuestInterviewsField'
+        has_sponsors:
+          $ref: '#/components/schemas/HasSponsorsField'
+    ExplicitField:
+      type: boolean
+      description: Whether this podcast contains explicit language.
+      example: false
+    PodcastNameField:
+      type: string
+      description: Podcast name.
+      example: Star Wars 7x7 | Star Wars News, Interviews, and More!
+    LanguageField:
+      type: string
+      description: The language of this podcast. You can get all supported languages from `GET /languages`.
+      example: English
+    LatestEpisodeIdField:
+      type: string
+      description: The id of the most recently published episode of this podcast, which can be used to further fetch detailed episode metadata via `GET /episodes/{id}`.
+      example: d057092e57cc4ced80e0efaa196593d9
+    CountryField:
+      type: string
+      description: The country where this podcast is produced.
+      example: United States
+    PodcastDomainResponse:
+      type: object
+      properties:
+        page_number:
+          type: integer
+          example: 2
+        has_next:
+          type: boolean
+          example: true
+        next_page_number:
+          type: integer
+          example: 3
+        has_previous:
+          type: boolean
+          example: true
+        previous_page_number:
+          type: integer
+          example: 1
+        podcasts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastSimple'
+  headers:
+    X-ListenAPI-Usage:
+      description: The number of API requests that you've used in current billing cycle.
+      style: simple
+      explode: false
+      schema:
+        type: integer
+        example: 19231
+    X-listenAPI-Latency-Seconds:
+      description: Latency for this api call, in seconds.
+      style: simple
+      explode: false
+      schema:
+        type: number
+        example: 0.056
+    X-ListenAPI-NextBillingDate:
+      description: The timestamp for the start of next billing cycle. In ISO 8601 format.
+      style: simple
+      schema:
+        type: string
+        format: date-time
+        example: '2020-04-26T17:27:33.110641+00:00'
+    X-ListenAPI-FreeQuota:
+      description: Free quotas of API requests included in your api plan.
+      style: simple
+      explode: false
+      schema:
+        type: integer
+        example: 25000
   securitySchemes:
-    apiKeyHeader:
+    ListenApiKey:
       type: apiKey
       in: header
       name: X-ListenAPI-Key
-      description: Your Listen API key, sent in the X-ListenAPI-Key request header.
+      description: Get your API key at https://www.listennotes.com/api/dashboard/. Team keys act as the API admin.

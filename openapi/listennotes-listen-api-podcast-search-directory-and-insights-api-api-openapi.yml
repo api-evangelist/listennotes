@@ -1,0 +1,132 @@
+openapi: 3.2.0
+info:
+  title: 'Listen API: Podcast Search, Directory, And Insights API'
+  description: Simple & no-nonsense podcast search & directory API. Search all podcasts and episodes by people, places, or topics.
+  termsOfService: https://www.listennotes.com/api/terms/
+  contact:
+    name: Listen Notes
+    url: https://www.listennotes.com/api/
+    email: hello@listennotes.com
+  version: '2.0'
+servers:
+- url: https://listen-api.listennotes.com/api/v2
+  description: API Production Server
+security:
+- ListenApiKey: []
+tags:
+- name: 'Listen API: Podcast Search, Directory, And Insights API'
+paths: {}
+webhooks:
+  podcastsSubmitAccepted:
+    post:
+      security: []
+      requestBody:
+        description: Triggered by your request to POST /podcasts/submit, if the podcast submission is accepted.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PodcastMinimumRss'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully
+      tags:
+      - 'Listen API: Podcast Search, Directory, And Insights API'
+      summary: Create podcasts submit accepted
+      x-summary-source: derived
+  podcastsSubmitRejected:
+    post:
+      security: []
+      requestBody:
+        description: Triggered by your request to POST /podcasts/submit, if the podcast submission is rejected.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                podcast:
+                  type: object
+                  properties:
+                    rss:
+                      $ref: '#/components/schemas/RssField'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully
+      tags:
+      - 'Listen API: Podcast Search, Directory, And Insights API'
+      summary: Create podcasts submit rejected
+      x-summary-source: derived
+  podcastDeleted:
+    post:
+      security: []
+      requestBody:
+        description: Triggered by your request to DELETE /podcasts/{id}, if the podcast is actually deleted.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PodcastMinimumRss'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully
+      tags:
+      - 'Listen API: Podcast Search, Directory, And Insights API'
+      summary: Create podcast deleted
+      x-summary-source: derived
+components:
+  schemas:
+    PodcastIdField:
+      type: string
+      description: Podcast id, which can be used to further fetch detailed podcast metadata via `GET /podcasts/{id}`.
+      example: 4d3fe717742d4963a85562e9f84d8c79
+    PodcastLNUrlField:
+      type: string
+      description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+      example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+    RssField:
+      type: string
+      description: RSS url of this podcast. This field is available only in the PRO/ENTERPRISE plan.
+      example: https://sw7x7.libsyn.com/rss
+    PodcastNameField:
+      type: string
+      description: Podcast name.
+      example: Star Wars 7x7 | Star Wars News, Interviews, and More!
+    PodcastMinimumRss:
+      type: object
+      properties:
+        image:
+          $ref: '#/components/schemas/ImageField'
+        thumbnail:
+          $ref: '#/components/schemas/ThumbnailField'
+        title:
+          $ref: '#/components/schemas/PodcastNameField'
+        listennotes_url:
+          $ref: '#/components/schemas/PodcastLNUrlField'
+        id:
+          $ref: '#/components/schemas/PodcastIdField'
+        publisher:
+          $ref: '#/components/schemas/PublisherField'
+        rss:
+          $ref: '#/components/schemas/RssField'
+    PublisherField:
+      type: string
+      description: Podcast publisher name.
+      example: Planet Broadcasting
+    ImageField:
+      type: string
+      description: 'Image url for this podcast''s artwork. If you are using PRO/ENTERPRISE plan, then it''s
+
+        a high resolution image (1400x1400). If you are using FREE plan, then it''s the same as **thumbnail**,
+
+        low resolution image (300x300).
+
+        '
+      example: https://cdn-images-3.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+    ThumbnailField:
+      type: string
+      description: Thumbnail image url for this podcast's artwork (300x300).
+      example: https://cdn-images-3.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+  securitySchemes:
+    ListenApiKey:
+      type: apiKey
+      in: header
+      name: X-ListenAPI-Key
+      description: Get your API key at https://www.listennotes.com/api/dashboard/. Team keys act as the API admin.

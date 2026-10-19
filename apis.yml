@@ -229,6 +229,18 @@ apis:
     url: collections/listennotes.postman_collection.json
   - type: OpenCollection
     url: collections/listennotes.opencollection.json
+- aid: listennotes:listennotes-listen-api-podcast-search-directory-and-insights-api-api
+  name: 'Listen Notes Listen API: Podcast Search, Directory, And Insights API'
+  description: >-
+    The Listen API: Podcast Search, Directory, And Insights API API from Listen Notes — 0 operation(s)
+    for listen api: podcast search, directory, and insights api.
+  humanURL: https://www.listennotes.com/api/docs/
+  baseURL: https://listen-api.listennotes.com/api/v2
+  tags:
+  - 'Listen API: Podcast Search, Directory, And Insights API'
+  properties:
+  - type: OpenAPI
+    url: openapi/listennotes-listen-api-podcast-search-directory-and-insights-api-api-openapi.yml
 x-correction-request:
   requested: '2026-10-02'
   source:

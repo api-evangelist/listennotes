@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Listen API: Podcast Search, Directory, and Insights…'
-  description: Simple and no-nonsense podcast search and directory API from Listen Notes.
+  description: Simple & no-nonsense podcast search & directory API. Search all podcasts and episodes by people, places, or topics.
   termsOfService: https://www.listennotes.com/api/terms/
   contact:
     name: Listen Notes
@@ -12,72 +12,1561 @@ servers:
 - url: https://listen-api.listennotes.com/api/v2
   description: API Production Server
 security:
-- apiKeyHeader: []
+- ListenApiKey: []
 tags:
 - name: Playlist API
-  description: Endpoints to fetch Listen Later playlists data.
+  description: Endpoints to fetch and manage Listen Later playlists
 paths:
-  /playlists:
-    get:
-      tags:
-      - Playlist API
-      summary: Fetch your playlists
-      description: Fetch a paginated list of your Listen Later playlists.
-      operationId: getPlaylists
-      parameters:
-      - name: sort
-        in: query
-        description: recent_added_first or recent_updated_first.
-        schema:
-          type: string
-          default: recent_added_first
-      - name: page
-        in: query
-        description: Page number for pagination.
-        schema:
-          type: integer
-          default: 1
-      responses:
-        '200':
-          description: Your playlists.
   /playlists/{id}:
-    get:
+    delete:
       tags:
       - Playlist API
-      summary: Get a playlist by id
-      description: Fetch a playlist's info and its items (episodes or podcasts) by id.
-      operationId: getPlaylistById
+      summary: Delete a playlist
+      description: 'Permanently delete a playlist, including all episode and podcast references saved in this specific playlist and their notes. The actual episodes and podcasts remain in the Listen Notes podcast database.
+
+
+        **Warning: Deletion cannot be undone. Once deleted, the playlist is gone, regardless of how many episodes or podcasts it contains. You, the developer, are responsible for adding a confirmation step in your app''s UI before calling this endpoint to prevent accidental deletion.**
+
+
+        Only playlists owned by your admin API account can be modified; contributor membership does not grant write access.'
+      operationId: deletePlaylist
+      x-code-samples:
+      - lang: Shell
+        source: "curl -X DELETE 'https://listen-api.listennotes.com/api/v2/playlists/m1pe7z60bsw/' \\\n  -H \"X-ListenAPI-Key: $LISTEN_API_KEY\"\n"
       parameters:
       - name: id
         in: path
         required: true
-        description: Playlist id.
+        description: 11-character playlist ID returned by the playlist endpoints.
         schema:
           type: string
-      - name: type
-        in: query
-        description: episode_list or podcast_list.
-        schema:
-          type: string
-          default: episode_list
-      - name: last_timestamp_ms
-        in: query
-        description: Timestamp (ms) to paginate playlist items.
-        schema:
-          type: integer
-      - name: sort
-        in: query
-        description: recent_added_first or recent_updated_first.
-        schema:
-          type: string
-          default: recent_added_first
+          minLength: 11
+          maxLength: 11
+          example: m1pe7z60bsw
       responses:
         '200':
-          description: Playlist info and items.
+          description: The playlist and its saved items and notes have been deleted.
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - deleted
+                properties:
+                  id:
+                    type: string
+                    minLength: 11
+                    maxLength: 11
+                  deleted:
+                    type: boolean
+                    enum:
+                    - true
+              example:
+                id: m1pe7z60bsw
+                deleted: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: The playlist is not owned by the admin API account.
+        '404':
+          description: Playlist not found or already deleted.
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+      - Playlist API
+      summary: Update playlist metadata
+      description: 'Update any subset of name, description, visibility, and type. Omitted fields remain unchanged; at least one field is required. Switching to private rotates the playlist RSS secret. Type selects the saved default view (episode_list or podcast_list) and the returned listennotes_url; changing it preserves all existing episodes and podcasts.
+
+
+        Only playlists owned by your admin API account can be modified; contributor membership does not grant write access.'
+      operationId: updatePlaylist
+      x-code-samples:
+      - lang: Shell
+        source: "curl -X PUT 'https://listen-api.listennotes.com/api/v2/playlists/m1pe7z60bsw' \\\n  -H \"X-ListenAPI-Key: $LISTEN_API_KEY\" \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"description\":\"Podcasts to revisit\",\"visibility\":\"private\",\"type\":\"podcast_list\"}'\n"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: 11-character playlist ID returned by the playlist endpoints.
+        schema:
+          type: string
+          minLength: 11
+          maxLength: 11
+          example: m1pe7z60bsw
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistSummary'
+              example:
+                id: m1pe7z60bsw
+                name: My favorite podcasts
+                description: Podcasts and episodes to revisit.
+                image: https://cdn-images-1.listennotes.com/listen-notes-podcast-search-engine.png
+                thumbnail: https://cdn-images-1.listennotes.com/listen-notes-podcast-search-engine.png
+                visibility: public
+                type: podcast_list
+                episode_count: 0
+                podcast_count: 0
+                total_audio_length_sec: 0
+                listennotes_url: https://www.listennotes.com/playlists/my-favorite-podcasts-m1pe7z60bsw/podcasts/
+        '400':
+          description: Invalid body, unsupported fields, invalid values, or missing required fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: The playlist is not owned by the API admin.
+        '404':
+          description: Playlist, playlist item, or podcast/episode not found. Item IDs must belong to the specified playlist.
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: false
+              minProperties: 1
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 4096
+                  description: Nonblank playlist name. Leading/trailing whitespace is trimmed; rss is reserved (case insensitive).
+                  example: My favorite podcasts
+                description:
+                  type: string
+                  minLength: 0
+                  maxLength: 4096
+                  description: Playlist description. An empty string clears it.
+                  example: Podcasts and episodes to revisit.
+                visibility:
+                  type: string
+                  enum:
+                  - public
+                  - unlisted
+                  - private
+                  description: Who can view the playlist. Creation defaults to public.
+                  example: public
+                type:
+                  type: string
+                  enum:
+                  - episode_list
+                  - podcast_list
+                  description: The saved default view. Changing it preserves all episodes and podcasts in the playlist.
+                  example: podcast_list
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              minProperties: 1
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 4096
+                  description: Nonblank playlist name. Leading/trailing whitespace is trimmed; rss is reserved (case insensitive).
+                  example: My favorite podcasts
+                description:
+                  type: string
+                  minLength: 0
+                  maxLength: 4096
+                  description: Playlist description. An empty string clears it.
+                  example: Podcasts and episodes to revisit.
+                visibility:
+                  type: string
+                  enum:
+                  - public
+                  - unlisted
+                  - private
+                  description: Who can view the playlist. Creation defaults to public.
+                  example: public
+                type:
+                  type: string
+                  enum:
+                  - episode_list
+                  - podcast_list
+                  description: The saved default view. Changing it preserves all episodes and podcasts in the playlist.
+                  example: podcast_list
+    get:
+      tags:
+      - Playlist API
+      summary: Fetch a playlist's info and items (i.e., episodes or podcasts)
+      description: 'A playlist can contain both episodes and podcasts, shown in separate views,
+
+        just like playlists created via listennotes.com/listen/.
+
+        This endpoint fetches items from the saved default view unless **type** is specified.
+
+        The response type and listennotes_url describe the selected view.
+
+        You can use the **last_pub_date_ms** parameter to do pagination and fetch more items.
+
+        A playlist can be **public** (discoverable on ListenNotes.com),
+
+        **unlisted** (accessible to anyone who knows the playlist id),
+
+        or **private** (accessible when the API admin has active playlist membership).
+
+        Public and unlisted playlists can also be fetched by ID regardless of their owner.'
+      operationId: getPlaylistById
+      parameters:
+      - name: id
+        in: path
+        description: 'Playlist id (always 11 characters, e.g., m1pe7z60bsw).
+
+          You can get the podcast id from the url of a playlist, e.g.,
+
+          m1pe7z60bsw is the playlist id of listennotes.com/listen/podcasts-about-podcasting-m1pe7z60bsw
+
+          '
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: m1pe7z60bsw
+      - name: type
+        in: query
+        description: 'Select **episode_list** or **podcast_list** to fetch that view.
+
+          If omitted, use the playlist''s saved default type. This query parameter does not change the saved default.
+
+          '
+        required: false
+        schema:
+          type: string
+          example: episode_list
+          enum:
+          - episode_list
+          - podcast_list
+      - name: last_timestamp_ms
+        in: query
+        description: 'For playlist items pagination.
+
+          It''s the value of **last_timestamp_ms** from the response of last request.
+
+          If it''s 0 or not specified, just return the latest or the oldest 20 items,
+
+          depending on the value of the **sort** parameter.
+
+          It is an Epoch Unix timestamp in milliseconds.
+
+          '
+        required: false
+        schema:
+          type: integer
+          example: 0
+          default: 0
+      - name: sort
+        in: query
+        description: 'How do you want to sort playlist items?
+
+          '
+        required: false
+        schema:
+          type: string
+          example: recent_added_first
+          default: recent_added_first
+          enum:
+          - recent_added_first
+          - oldest_added_first
+          - recent_published_first
+          - oldest_published_first
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistResponse'
+          links:
+            paginate:
+              operationId: getPlaylistById
+              parameters:
+                last_timestamp_ms: $response.body#/last_timestamp_ms
+              description: Pagination through playlist items.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
+  /playlists:
+    post:
+      tags:
+      - Playlist API
+      summary: Create a playlist
+      description: 'Create an empty playlist owned by the API admin. Name is required; description defaults to an empty string, visibility defaults to public, and type defaults to episode_list. Set type to podcast_list to make podcasts the default view. The response includes the saved type and its listennotes_url.
+
+
+        Only playlists owned by your admin API account can be modified; contributor membership does not grant write access.'
+      operationId: createPlaylist
+      x-code-samples:
+      - lang: Shell
+        source: "curl -X POST 'https://listen-api.listennotes.com/api/v2/playlists' \\\n  -H \"X-ListenAPI-Key: $LISTEN_API_KEY\" \\\n  --data-urlencode 'name=My favorite podcasts' \\\n  --data-urlencode 'visibility=public' \\\n  --data-urlencode 'type=episode_list'\n"
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistSummary'
+              example:
+                id: m1pe7z60bsw
+                name: My favorite podcasts
+                description: Podcasts and episodes to revisit.
+                image: https://cdn-images-1.listennotes.com/listen-notes-podcast-search-engine.png
+                thumbnail: https://cdn-images-1.listennotes.com/listen-notes-podcast-search-engine.png
+                visibility: public
+                type: episode_list
+                episode_count: 0
+                podcast_count: 0
+                total_audio_length_sec: 0
+                listennotes_url: https://www.listennotes.com/playlists/my-favorite-podcasts-m1pe7z60bsw/episodes/
+        '400':
+          description: Invalid body, unsupported fields, invalid values, or missing required fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: The playlist is not owned by the API admin.
+        '404':
+          description: Playlist, playlist item, or podcast/episode not found. Item IDs must belong to the specified playlist.
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 4096
+                  description: Nonblank playlist name. Leading/trailing whitespace is trimmed; rss is reserved (case insensitive).
+                  example: My favorite podcasts
+                description:
+                  type: string
+                  minLength: 0
+                  maxLength: 4096
+                  description: Playlist description. An empty string clears it.
+                  example: Podcasts and episodes to revisit.
+                visibility:
+                  type: string
+                  enum:
+                  - public
+                  - unlisted
+                  - private
+                  description: Who can view the playlist. Creation defaults to public.
+                  example: public
+                type:
+                  type: string
+                  enum:
+                  - episode_list
+                  - podcast_list
+                  description: The saved default view. Changing it preserves all episodes and podcasts in the playlist.
+                  example: episode_list
+                  default: episode_list
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 4096
+                  description: Nonblank playlist name. Leading/trailing whitespace is trimmed; rss is reserved (case insensitive).
+                  example: My favorite podcasts
+                description:
+                  type: string
+                  minLength: 0
+                  maxLength: 4096
+                  description: Playlist description. An empty string clears it.
+                  example: Podcasts and episodes to revisit.
+                visibility:
+                  type: string
+                  enum:
+                  - public
+                  - unlisted
+                  - private
+                  description: Who can view the playlist. Creation defaults to public.
+                  example: public
+                type:
+                  type: string
+                  enum:
+                  - episode_list
+                  - podcast_list
+                  description: The saved default view. Changing it preserves all episodes and podcasts in the playlist.
+                  example: episode_list
+                  default: episode_list
+    get:
+      tags:
+      - Playlist API
+      summary: Fetch a list of your playlists
+      description: 'This endpoint lists playlists with an active membership for the API admin, including playlists they created or joined.
+
+        Each playlist includes its saved default **type** and a **listennotes_url** for that view.
+
+        You can use the **page** parameter to do pagination and fetch more playlists.'
+      operationId: getPlaylists
+      parameters:
+      - name: sort
+        in: query
+        description: 'How do you want to sort playlists?
+
+          '
+        required: false
+        schema:
+          type: string
+          example: recent_added_first
+          default: recent_added_first
+          enum:
+          - recent_added_first
+          - oldest_added_first
+          - name_a_to_z
+          - name_z_to_a
+      - name: page
+        in: query
+        description: 'Page number of playlists.
+
+          '
+        required: false
+        schema:
+          type: integer
+          example: 1
+          default: 1
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistsResponse'
+          links:
+            paginate:
+              operationId: getPlaylists
+              parameters:
+                page: $response.body#/page
+              description: Pagination through playlists.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
+  /playlists/{id}/items:
+    post:
+      tags:
+      - Playlist API
+      summary: Add an episode or podcast to a playlist
+      description: 'Provide exactly one non-empty episode_id or podcast_id; an empty unused ID field is ignored. Invalid ID formats return 400 and identify the field. A missing episode or podcast returns 404 with an error such as "Episode not found: {episode_id}." or "Podcast not found: {podcast_id}.". Existing active items are reused (200); new or restored items return 201. Omitted notes preserve existing notes, including when restoring a deleted item; supplied notes replace them.'
+      operationId: addPlaylistItem
+      x-code-samples:
+      - lang: Shell
+        source: "curl -X POST 'https://listen-api.listennotes.com/api/v2/playlists/m1pe7z60bsw/items' \\\n  -H \"X-ListenAPI-Key: $LISTEN_API_KEY\" \\\n  --data-urlencode 'episode_id=e53e6992a5b7492f9ea6fcd85d9ad95f' \\\n  --data-urlencode 'notes=Worth a listen.'\n"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: 11-character playlist ID returned by the playlist endpoints.
+        schema:
+          type: string
+          minLength: 11
+          maxLength: 11
+          example: m1pe7z60bsw
+      responses:
+        '200':
+          description: Already present
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistItem'
+              example:
+                id: 23
+                type: episode
+                notes: Worth a listen.
+                added_at_ms: 1595567004958
+                data:
+                  id: e53e6992a5b7492f9ea6fcd85d9ad95f
+                  title: An episode worth revisiting
+                  audio: https://example.com/episode.mp3
+                  audio_length_sec: 1200
+                  pub_date_ms: 1595500000000
+        '201':
+          description: Added or restored
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistItem'
+              example:
+                id: 23
+                type: episode
+                notes: Worth a listen.
+                added_at_ms: 1595567004958
+                data:
+                  id: e53e6992a5b7492f9ea6fcd85d9ad95f
+                  title: An episode worth revisiting
+                  audio: https://example.com/episode.mp3
+                  audio_length_sec: 1200
+                  pub_date_ms: 1595500000000
+        '400':
+          description: Invalid body, unsupported fields, invalid values, or missing required fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: The playlist is not owned by the API admin.
+        '404':
+          description: Playlist, playlist item, or podcast/episode not found. Item IDs must belong to the specified playlist.
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: false
+              oneOf:
+              - required:
+                - episode_id
+                properties:
+                  episode_id:
+                    minLength: 1
+              - required:
+                - podcast_id
+                properties:
+                  podcast_id:
+                    minLength: 1
+              properties:
+                episode_id:
+                  type: string
+                  pattern: ^([0-9a-fA-F]{32})?$
+                  description: Episode UUID. Supply this or podcast_id. An empty unused field is ignored.
+                  example: e53e6992a5b7492f9ea6fcd85d9ad95f
+                podcast_id:
+                  type: string
+                  pattern: ^([0-9a-fA-F]{32})?$
+                  description: Podcast UUID. Supply this or episode_id. An empty unused field is ignored.
+                notes:
+                  type: string
+                  minLength: 0
+                  maxLength: 1024
+                  description: Plain-text notes. An empty string clears existing notes.
+                  example: Worth a listen.
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              oneOf:
+              - required:
+                - episode_id
+                properties:
+                  episode_id:
+                    minLength: 1
+              - required:
+                - podcast_id
+                properties:
+                  podcast_id:
+                    minLength: 1
+              properties:
+                episode_id:
+                  type: string
+                  pattern: ^([0-9a-fA-F]{32})?$
+                  description: Episode UUID. Supply this or podcast_id. An empty unused field is ignored.
+                  example: e53e6992a5b7492f9ea6fcd85d9ad95f
+                podcast_id:
+                  type: string
+                  pattern: ^([0-9a-fA-F]{32})?$
+                  description: Podcast UUID. Supply this or episode_id. An empty unused field is ignored.
+                notes:
+                  type: string
+                  minLength: 0
+                  maxLength: 1024
+                  description: Plain-text notes. An empty string clears existing notes.
+                  example: Worth a listen.
+  /playlists/{id}/items/{item_id}:
+    put:
+      tags:
+      - Playlist API
+      summary: Update notes for a playlist item
+      description: 'Replace item notes, or send an empty string to clear them. The item ID and added_at_ms remain unchanged.
+
+
+        Only playlists owned by your admin API account can be modified; contributor membership does not grant write access.'
+      operationId: updatePlaylistItemNotes
+      x-code-samples:
+      - lang: Shell
+        source: "curl -X PUT 'https://listen-api.listennotes.com/api/v2/playlists/m1pe7z60bsw/items/23' \\\n  -H \"X-ListenAPI-Key: $LISTEN_API_KEY\" \\\n  --data-urlencode 'notes='\n"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: 11-character playlist ID returned by the playlist endpoints.
+        schema:
+          type: string
+          minLength: 11
+          maxLength: 11
+          example: m1pe7z60bsw
+      - name: item_id
+        in: path
+        required: true
+        description: Integer playlist-item ID returned by GET /playlists/{id} or the add-item endpoint, not a podcast or episode UUID.
+        schema:
+          type: integer
+          minimum: 1
+          example: 23
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistItem'
+              example:
+                id: 23
+                type: episode
+                notes: Worth a listen.
+                added_at_ms: 1595567004958
+                data:
+                  id: e53e6992a5b7492f9ea6fcd85d9ad95f
+                  title: An episode worth revisiting
+                  audio: https://example.com/episode.mp3
+                  audio_length_sec: 1200
+                  pub_date_ms: 1595500000000
+        '400':
+          description: Invalid body, unsupported fields, invalid values, or missing required fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: The playlist is not owned by the API admin.
+        '404':
+          description: Playlist, playlist item, or podcast/episode not found. Item IDs must belong to the specified playlist.
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - notes
+              properties:
+                notes:
+                  type: string
+                  minLength: 0
+                  maxLength: 1024
+                  description: Plain-text notes. An empty string clears existing notes.
+                  example: Worth a listen.
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - notes
+              properties:
+                notes:
+                  type: string
+                  minLength: 0
+                  maxLength: 1024
+                  description: Plain-text notes. An empty string clears existing notes.
+                  example: Worth a listen.
+    delete:
+      tags:
+      - Playlist API
+      summary: Remove an item from a playlist
+      description: 'Delete a playlist item. Repeating deletion of the same item succeeds. This does not delete the episode or podcast from the podcast database.
+
+
+        Only playlists owned by your admin API account can be modified; contributor membership does not grant write access.'
+      operationId: deletePlaylistItem
+      x-code-samples:
+      - lang: Shell
+        source: "curl -X DELETE 'https://listen-api.listennotes.com/api/v2/playlists/m1pe7z60bsw/items/23' \\\n  -H \"X-ListenAPI-Key: $LISTEN_API_KEY\"\n"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: 11-character playlist ID returned by the playlist endpoints.
+        schema:
+          type: string
+          minLength: 11
+          maxLength: 11
+          example: m1pe7z60bsw
+      - name: item_id
+        in: path
+        required: true
+        description: Integer playlist-item ID returned by GET /playlists/{id} or the add-item endpoint, not a podcast or episode UUID.
+        schema:
+          type: integer
+          minimum: 1
+          example: 23
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-ListenAPI-FreeQuota:
+              $ref: '#/components/headers/X-ListenAPI-FreeQuota'
+            X-ListenAPI-Usage:
+              $ref: '#/components/headers/X-ListenAPI-Usage'
+            X-listenAPI-Latency-Seconds:
+              $ref: '#/components/headers/X-listenAPI-Latency-Seconds'
+            X-ListenAPI-NextBillingDate:
+              $ref: '#/components/headers/X-ListenAPI-NextBillingDate'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - deleted
+                properties:
+                  id:
+                    type: integer
+                  deleted:
+                    type: boolean
+              example:
+                id: 23
+                deleted: true
+        '400':
+          description: Invalid body, unsupported fields, invalid values, or missing required fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: The playlist is not owned by the API admin.
+        '404':
+          description: Playlist, playlist item, or podcast/episode not found. Item IDs must belong to the specified playlist.
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
 components:
+  schemas:
+    AudioLengthSecField:
+      type: integer
+      description: Audio length of this episode. In seconds.
+      example: 567
+    PlaylistVisibilityField:
+      type: string
+      description: Visibility of this playlist.
+      example: public
+      enum:
+      - public
+      - unlisted
+      - private
+    PodcastLNUrlField:
+      type: string
+      description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+      example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+    ListenScoreGlobalRankField:
+      type: string
+      description: 'The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
+
+        For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
+
+        If the ranking is not available, it''ll be null. Learn more at listennotes.com/listen-score
+
+        '
+      example: 0.5%
+    PlaylistsResponse:
+      type: object
+      properties:
+        previous_page_number:
+          type: integer
+          example: 1
+        page_number:
+          type: integer
+          example: 2
+        has_next:
+          type: boolean
+          example: true
+        has_previous:
+          type: boolean
+          example: true
+        next_page_number:
+          type: integer
+          example: 3
+        total:
+          type: integer
+          example: 325
+        playlists:
+          type: array
+          items:
+            type: object
+            description: A playlist
+            properties:
+              type:
+                $ref: '#/components/schemas/PlaylistDefaultTypeField'
+              episode_count:
+                type: integer
+                description: The number of episodes (including custom audio) in this playlist.
+                example: 23
+              podcast_count:
+                type: integer
+                description: The number of podcasts in this playlist.
+                example: 10
+              total_audio_length_sec:
+                type: integer
+                description: Total audio length of all episodes in this playlist, in seconds.
+                example: 234567
+              id:
+                $ref: '#/components/schemas/PlaylistIdField'
+              name:
+                $ref: '#/components/schemas/PlaylistNameField'
+              description:
+                $ref: '#/components/schemas/PlaylistDescriptionField'
+              image:
+                $ref: '#/components/schemas/PlaylistImageField'
+              thumbnail:
+                $ref: '#/components/schemas/PlaylistThumbnailField'
+              listennotes_url:
+                $ref: '#/components/schemas/PlaylistListennotesUrlField'
+              visibility:
+                $ref: '#/components/schemas/PlaylistVisibilityField'
+              last_timestamp_ms:
+                $ref: '#/components/schemas/PlaylistLastTimestampMsField'
+    AudioField:
+      type: string
+      description: Audio url of this episode, which can be played directly.
+      example: https://audio.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+    EpisodeImageField:
+      type: string
+      description: 'Image url for this episode.
+
+        If an episode doesn''t have its own image, then this field would be the url of the podcast artwork image.
+
+        If you are using PRO/ENTERPRISE plan, then it''s
+
+        a high resolution image (1400x1400). If you are using FREE plan, then it''s the same as **thumbnail**,
+
+        low resolution image (300x300).
+
+        '
+      example: https://cdn-images-3.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+    UpdateFrequencyHoursField:
+      type: integer
+      description: How frequently does this podcast release a new episode? In hours. For example, if the value is 166, then it's every 166 hours (or weekly).
+      example: 168
+    PodcastMinimum:
+      type: object
+      properties:
+        image:
+          $ref: '#/components/schemas/ImageField'
+        thumbnail:
+          $ref: '#/components/schemas/ThumbnailField'
+        title:
+          $ref: '#/components/schemas/PodcastNameField'
+        listennotes_url:
+          $ref: '#/components/schemas/PodcastLNUrlField'
+        id:
+          $ref: '#/components/schemas/PodcastIdField'
+        publisher:
+          $ref: '#/components/schemas/PublisherField'
+        listen_score:
+          $ref: '#/components/schemas/ListenScoreField'
+        listen_score_global_rank:
+          $ref: '#/components/schemas/ListenScoreGlobalRankField'
+    ImageField:
+      type: string
+      description: 'Image url for this podcast''s artwork. If you are using PRO/ENTERPRISE plan, then it''s
+
+        a high resolution image (1400x1400). If you are using FREE plan, then it''s the same as **thumbnail**,
+
+        low resolution image (300x300).
+
+        '
+      example: https://cdn-images-3.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+    PodcastIdField:
+      type: string
+      description: Podcast id, which can be used to further fetch detailed podcast metadata via `GET /podcasts/{id}`.
+      example: 4d3fe717742d4963a85562e9f84d8c79
+    EpisodeLNUrlField:
+      type: string
+      description: The url of this episode on [ListenNotes.com](https://www.ListenNotes.com).
+      example: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+    PlaylistResponse:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/PlaylistIdField'
+        name:
+          $ref: '#/components/schemas/PlaylistNameField'
+        description:
+          $ref: '#/components/schemas/PlaylistDescriptionField'
+        image:
+          $ref: '#/components/schemas/PlaylistImageField'
+        thumbnail:
+          $ref: '#/components/schemas/PlaylistThumbnailField'
+        listennotes_url:
+          $ref: '#/components/schemas/PlaylistListennotesUrlField'
+        visibility:
+          $ref: '#/components/schemas/PlaylistVisibilityField'
+        last_timestamp_ms:
+          $ref: '#/components/schemas/PlaylistLastTimestampMsField'
+        total:
+          type: integer
+          description: Total number of items in this playlist.
+          example: 325
+        total_audio_length_sec:
+          type: integer
+          description: Total audio length of all episodes in this playlist, in seconds. It will have a valid value only when type is **episode_list**. In other words, it will be 0 if type is **podcast_list**.
+          example: 234567
+        type:
+          description: 'The selected view: **episode_list** or **podcast_list**.
+
+            Uses the saved default type unless the request specifies a type query parameter.
+
+            '
+          type: string
+          example: episode_list
+          enum:
+          - episode_list
+          - podcast_list
+        items:
+          type: array
+          description: A list of playlist items.
+          items:
+            $ref: '#/components/schemas/PlaylistItem'
+    LatestPubDateMsField:
+      type: integer
+      description: The published date of the latest episode of this podcast. It is an Epoch Unix timestamp in milliseconds.
+      example: 1557499770000
+    PlaylistSummary:
+      type: object
+      description: A playlist
+      properties:
+        type:
+          $ref: '#/components/schemas/PlaylistDefaultTypeField'
+        episode_count:
+          type: integer
+          description: The number of episodes (including custom audio) in this playlist.
+          example: 23
+        podcast_count:
+          type: integer
+          description: The number of podcasts in this playlist.
+          example: 10
+        total_audio_length_sec:
+          type: integer
+          description: Total audio length of all episodes in this playlist, in seconds.
+          example: 234567
+        id:
+          $ref: '#/components/schemas/PlaylistIdField'
+        name:
+          $ref: '#/components/schemas/PlaylistNameField'
+        description:
+          $ref: '#/components/schemas/PlaylistDescriptionField'
+        image:
+          $ref: '#/components/schemas/PlaylistImageField'
+        thumbnail:
+          $ref: '#/components/schemas/PlaylistThumbnailField'
+        listennotes_url:
+          $ref: '#/components/schemas/PlaylistListennotesUrlField'
+        visibility:
+          $ref: '#/components/schemas/PlaylistVisibilityField'
+    RssField:
+      type: string
+      description: RSS url of this podcast. This field is available only in the PRO/ENTERPRISE plan.
+      example: https://sw7x7.libsyn.com/rss
+    GenreIdsField:
+      type: array
+      example:
+      - 138
+      - 86
+      - 160
+      - 68
+      - 82
+      - 100
+      - 101
+      items:
+        type: integer
+        description: Genre ids.
+    TotalEpisodesField:
+      type: integer
+      description: Total number of episodes in this podcast.
+      example: 324
+    EpisodeSimple:
+      type: object
+      properties:
+        maybe_audio_invalid:
+          $ref: '#/components/schemas/MaybeAudioInvalidField'
+        pub_date_ms:
+          $ref: '#/components/schemas/EpisodePubDateMsField'
+        audio:
+          $ref: '#/components/schemas/AudioField'
+        listennotes_edit_url:
+          $ref: '#/components/schemas/EpisodeLNEditUrlField'
+        image:
+          $ref: '#/components/schemas/EpisodeImageField'
+        thumbnail:
+          $ref: '#/components/schemas/EpisodeThumbnailField'
+        description:
+          $ref: '#/components/schemas/EpisodeDescriptionField'
+        title:
+          $ref: '#/components/schemas/EpisodeNameField'
+        explicit_content:
+          $ref: '#/components/schemas/ExplicitField'
+        listennotes_url:
+          $ref: '#/components/schemas/EpisodeLNUrlField'
+        audio_length_sec:
+          $ref: '#/components/schemas/AudioLengthSecField'
+        id:
+          $ref: '#/components/schemas/EpisodeIdField'
+        link:
+          $ref: '#/components/schemas/LinkField'
+        podcast:
+          $ref: '#/components/schemas/PodcastMinimum'
+    HasGuestInterviewsField:
+      type: boolean
+      description: Whether this podcast has guest interviews.
+      example: false
+    PlaylistItem:
+      type: object
+      description: An item in a playlist
+      properties:
+        id:
+          type: integer
+          description: Playlist item id.
+          example: 23
+        type:
+          type: string
+          description: 'The type of this playlist item.
+
+            If a playlist is **episode_list**, then an item could be either **episode** or **custom_audio**.
+
+            If it''s **podcast_list**, then an item can only be **podcast**.
+
+            '
+          example: episode
+          enum:
+          - episode
+          - custom_audio
+          - podcast
+        notes:
+          type: string
+          description: Notes for this item.
+          example: This is a good episode.
+        added_at_ms:
+          type: integer
+          description: Timestamp when this item is added. It is an Epoch Unix timestamp in milliseconds.
+          example: 1595567004958
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/EpisodeSimple'
+          - $ref: '#/components/schemas/PodcastSimple'
+          - $ref: '#/components/schemas/CustomAudio'
+          - $ref: '#/components/schemas/DeletedItem'
+    PlaylistIdField:
+      type: string
+      description: A 11-character playlist id, which can be used to further fetch detailed playlist metadata via `GET /playlists/{id}`.
+      example: m1pe7z60bsw
+    PlaylistDescriptionField:
+      type: string
+      description: Playlist description.
+      example: A curated playlist of podcasts about podcasting.
+    DeletedItem:
+      type: object
+      description: 'A deleted episode or podcast.
+
+        An episode or a podcast could be deleted from our podcast database.
+
+        Possible reasons: 1) Podcast producers sometimes delete their old episodes. 2) Copyright issues.
+
+        '
+      properties:
+        id:
+          type: string
+          description: Episode id or podcast id.
+          example: 96fc400171364e32897b25d84a8ed8ec
+        title:
+          type: string
+          description: Episode title or podcast title.
+          example: This is a test episode
+        status:
+          type: string
+          description: The status of this episode or podcast. For now, the only possible value is **deleted**.
+          example: deleted
+        error:
+          type: string
+          description: Why this episode or podcast is deleted?
+          example: This episode is deleted from the podcast database, because...
+    PlaylistImageField:
+      type: string
+      description: High resolution image url of the playlist.
+      example: https://production.listennotes.com/web/image/4bbb6992f3cc4a5a98fa95fc08cb4513.jpg
+    EpisodeIdField:
+      type: string
+      description: Episode id, which can be used to further fetch detailed episode metadata via `GET /episodes/{id}`.
+      example: 4d82e50314174754a3b603912448e812
+    EpisodeDescriptionField:
+      type: string
+      description: Html of this episode's full description
+      example: '<p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here''s the real scoop. Punch it!</p> <p>***We’re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and you’ll get some fabulous rewards for your pledge.*** </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you''ve heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don''t forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We''re also on Pinterest and Instagram as "SW7x7" too, and we''d love to connect with you there!</p>
+
+        '
+    PodcastExtraField:
+      type: object
+      properties:
+        youtube_url:
+          type: string
+          description: YouTube url affiliated with this podcast
+          example: https://www.youtube.com/sw7x7
+        facebook_handle:
+          type: string
+          description: Facebook username affiliated with this podcast
+          example: sw7x7
+        instagram_handle:
+          type: string
+          description: Instagram username affiliated with this podcast
+          example: sw7x7
+        twitter_handle:
+          type: string
+          description: Twitter username affiliated with this podcast
+          example: SW7x7podcast
+        wechat_handle:
+          type: string
+          description: WeChat username affiliated with this podcast
+        patreon_handle:
+          type: string
+          description: Patreon username affiliated with this podcast
+          example: sw7x7
+        amazon_music_url:
+          type: string
+          description: Amazon Music url for this podcast
+          example: https://music.amazon.com/podcasts/6fc6d683-9ef3-4850-9c35-8e8b1a42a147/the-lock-sportscast
+        linkedin_url:
+          type: string
+          description: LinkedIn url affiliated with this podcast
+        spotify_url:
+          type: string
+          description: Spotify url for this podcast
+          example: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+        url1:
+          type: string
+          description: Url affiliated with this podcast
+        url2:
+          type: string
+          description: Url affiliated with this podcast
+        url3:
+          type: string
+          description: Url affiliated with this podcast
+    WebsiteField:
+      type: string
+      description: Website url of this podcast.
+      example: http://sw7x7.com/
+    PodcastTypeField:
+      type: string
+      description: The type of this podcast - episodic or serial.
+      example: episodic
+      enum:
+      - episodic
+      - serial
+    PodcastDescriptionField:
+      type: string
+      description: Html of this episode's full description
+      example: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star Wars news, history, interviews, trivia, and deep dives into the Star Wars story as told in movies, books, comics, games, cartoons, and more. Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed!</p>
+    ThumbnailField:
+      type: string
+      description: Thumbnail image url for this podcast's artwork (300x300).
+      example: https://cdn-images-3.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+    EarliestPubDateMsField:
+      type: integer
+      description: The published date of the oldest episode of this podcast. It is an Epoch Unix timestamp in milliseconds.
+      example: 1470667902000
+    MaybeAudioInvalidField:
+      type: boolean
+      description: Whether or not this episode's audio is invalid. Podcasters may delete the original audio.
+      example: false
+    EpisodePubDateMsField:
+      type: integer
+      description: Published date for this episode. It is an Epoch Unix timestamp in milliseconds.
+      example: 1474873200000
+    EmailField:
+      type: string
+      description: The email of this podcast's producer. This field is available only in the PRO/ENTERPRISE plan.
+      example: hello@example.com
+    ListenScoreField:
+      type: integer
+      description: 'The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
+
+        If the score is not available, it''ll be null. Learn more at listennotes.com/listen-score
+
+        '
+      example: 81
+    LinkField:
+      type: string
+      description: Web link of this episode.
+      example: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+    AvgAudioLengthSecField:
+      type: integer
+      description: Average audio length of all episodes of this podcast. In seconds.
+      example: 1291
+    EpisodeNameField:
+      type: string
+      description: Episode name.
+      example: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews – SWBW #101'
+    HasSponsorsField:
+      type: boolean
+      description: Whether this podcast has sponsors.
+      example: false
+    EpisodeThumbnailField:
+      type: string
+      description: 'Thumbnail image (300x300) url for this episode.
+
+        If an episode doesn''t have its own image, then this field would be the url of the podcast artwork thumbnail image.
+
+        '
+      example: https://cdn-images-3.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+    PlaylistNameField:
+      type: string
+      description: Playlist name.
+      example: My podcast playlist
+    PodcastLookingForField:
+      type: object
+      properties:
+        cohosts:
+          type: boolean
+          description: Whether this podcast is looking for cohosts.
+          example: true
+        cross_promotion:
+          type: boolean
+          description: Whether this podcast is looking for cross promotion opportunities with other podcasts.
+          example: true
+        sponsors:
+          type: boolean
+          description: Whether this podcast is looking for sponsors.
+          example: true
+        guests:
+          type: boolean
+          description: Whether this podcast is looking for guests.
+          example: true
+    IsClaimedField:
+      type: boolean
+      description: Whether this podcast is claimed by its producer on [ListenNotes.com](https://www.ListenNotes.com).
+      example: true
+    PublisherField:
+      type: string
+      description: Podcast publisher name.
+      example: Planet Broadcasting
+    iTunesIdField:
+      type: integer
+      description: iTunes id for this podcast.
+      example: 896354638
+    PodcastSimple:
+      type: object
+      properties:
+        is_claimed:
+          $ref: '#/components/schemas/IsClaimedField'
+        type:
+          $ref: '#/components/schemas/PodcastTypeField'
+        explicit_content:
+          $ref: '#/components/schemas/ExplicitField'
+        website:
+          $ref: '#/components/schemas/WebsiteField'
+        total_episodes:
+          $ref: '#/components/schemas/TotalEpisodesField'
+        audio_length_sec:
+          $ref: '#/components/schemas/AvgAudioLengthSecField'
+        update_frequency_hours:
+          $ref: '#/components/schemas/UpdateFrequencyHoursField'
+        earliest_pub_date_ms:
+          $ref: '#/components/schemas/EarliestPubDateMsField'
+        rss:
+          $ref: '#/components/schemas/RssField'
+        latest_episode_id:
+          $ref: '#/components/schemas/LatestEpisodeIdField'
+        latest_pub_date_ms:
+          $ref: '#/components/schemas/LatestPubDateMsField'
+        title:
+          $ref: '#/components/schemas/PodcastNameField'
+        language:
+          $ref: '#/components/schemas/LanguageField'
+        description:
+          $ref: '#/components/schemas/PodcastDescriptionField'
+        email:
+          $ref: '#/components/schemas/EmailField'
+        image:
+          $ref: '#/components/schemas/ImageField'
+        thumbnail:
+          $ref: '#/components/schemas/ThumbnailField'
+        listennotes_url:
+          $ref: '#/components/schemas/PodcastLNUrlField'
+        id:
+          $ref: '#/components/schemas/PodcastIdField'
+        country:
+          $ref: '#/components/schemas/CountryField'
+        publisher:
+          $ref: '#/components/schemas/PublisherField'
+        itunes_id:
+          $ref: '#/components/schemas/iTunesIdField'
+        looking_for:
+          $ref: '#/components/schemas/PodcastLookingForField'
+        extra:
+          $ref: '#/components/schemas/PodcastExtraField'
+        genre_ids:
+          $ref: '#/components/schemas/GenreIdsField'
+        listen_score:
+          $ref: '#/components/schemas/ListenScoreField'
+        listen_score_global_rank:
+          $ref: '#/components/schemas/ListenScoreGlobalRankField'
+        has_guest_interviews:
+          $ref: '#/components/schemas/HasGuestInterviewsField'
+        has_sponsors:
+          $ref: '#/components/schemas/HasSponsorsField'
+    CustomAudio:
+      type: object
+      description: A custom audio in a playlist, which is a type of playlist item.
+      properties:
+        title:
+          type: string
+          description: Custom audio title.
+          example: An awesome audio to listen.
+        audio:
+          type: string
+          description: Audio url, which can be played directly.
+          example: https://example.com/audio.mp3
+        audio_length_sec:
+          type: integer
+          description: Audio length in seconds.
+          example: 253
+        image:
+          type: string
+          description: High resolution image url of this custom audio.
+          example: https://production.listennotes.com/playlist/image/6907e8ff6b6c45df94cc059753f369cc.JPEG
+        thumbnail:
+          type: string
+          description: Low resolution image url of this custom audio.
+          example: https://d3sv2eduhewoas.cloudfront.net/playlist/image/48477deae02649d7ab9d3f1b3966af38.JPEG
+        pub_date_ms:
+          type: integer
+          description: 'Published date of this custom audio.
+
+            For now, it''s the same as **added_at_ms** of this playlist item.
+
+            It is an Epoch Unix timestamp in milliseconds.
+
+            '
+          example: 1595567028133
+    ExplicitField:
+      type: boolean
+      description: Whether this podcast contains explicit language.
+      example: false
+    PlaylistListennotesUrlField:
+      type: string
+      description: The URL of the playlist view indicated by type. Playlist summaries use the saved default view; fetching items with an explicit type returns the URL for that selected view.
+      example: https://www.listennotes.com/playlists/podcasts-about-podcasting-m1pe7z60bsw/episodes/
+    PodcastNameField:
+      type: string
+      description: Podcast name.
+      example: Star Wars 7x7 | Star Wars News, Interviews, and More!
+    PlaylistThumbnailField:
+      type: string
+      description: Low resolution image url of the playlist.
+      example: https://production.listennotes.com/web/image/4bbb6992f3cc4a5a98fa95fc08cb4513.jpg
+    EpisodeLNEditUrlField:
+      type: string
+      description: Edit url of this episode where you can update the audio url if you find the audio is broken.
+      example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+    PlaylistLastTimestampMsField:
+      type: integer
+      description: 'Passed to the **last_timestamp_ms** parameter of `GET /playlists/{id}` to paginate through items of that playlist.
+
+        It is an Epoch Unix timestamp in milliseconds.
+
+        '
+      example: 1595641092907
+    LanguageField:
+      type: string
+      description: The language of this podcast. You can get all supported languages from `GET /languages`.
+      example: English
+    LatestEpisodeIdField:
+      type: string
+      description: The id of the most recently published episode of this podcast, which can be used to further fetch detailed episode metadata via `GET /episodes/{id}`.
+      example: d057092e57cc4ced80e0efaa196593d9
+    CountryField:
+      type: string
+      description: The country where this podcast is produced.
+      example: United States
+    PlaylistDefaultTypeField:
+      type: string
+      description: The saved default view of the playlist. Changing it preserves all episodes and podcasts.
+      example: episode_list
+      enum:
+      - episode_list
+      - podcast_list
+  responses:
+    NotFound:
+      description: Endpoint not exist, or podcast / episode not exist.
+    ServerError:
+      description: Something wrong on our end (Unexpected server errors).
+    Unauthorized:
+      description: Wrong api key, or your account is suspended.
+    TooManyRequests:
+      description: For FREE plan, exceeding the quota limit; or for all plans, sending too many requests too fast and exceeding the rate limit.
+  headers:
+    X-ListenAPI-Usage:
+      description: The number of API requests that you've used in current billing cycle.
+      style: simple
+      explode: false
+      schema:
+        type: integer
+        example: 19231
+    X-listenAPI-Latency-Seconds:
+      description: Latency for this api call, in seconds.
+      style: simple
+      explode: false
+      schema:
+        type: number
+        example: 0.056
+    X-ListenAPI-NextBillingDate:
+      description: The timestamp for the start of next billing cycle. In ISO 8601 format.
+      style: simple
+      schema:
+        type: string
+        format: date-time
+        example: '2020-04-26T17:27:33.110641+00:00'
+    X-ListenAPI-FreeQuota:
+      description: Free quotas of API requests included in your api plan.
+      style: simple
+      explode: false
+      schema:
+        type: integer
+        example: 25000
   securitySchemes:
-    apiKeyHeader:
+    ListenApiKey:
       type: apiKey
       in: header
       name: X-ListenAPI-Key
-      description: Your Listen API key, sent in the X-ListenAPI-Key request header.
+      description: Get your API key at https://www.listennotes.com/api/dashboard/. Team keys act as the API admin.
