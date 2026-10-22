@@ -60,3 +60,45 @@
     detected: '2026-10-20'
   status: not-a-workflow
   arazzo: null
+- slug: listennotes-apis-guru-openapi-directory
+  label: APIs.guru OpenAPI Directory
+  partner: apis-guru
+  partner_name: APIs.guru OpenAPI Directory
+  category: API definition directory listing (OpenAPI)
+  type: register
+  channel: standard-directory
+  evidence: https://apis.guru/
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: APIs.guru OpenAPI Directory
+    spec_file: null
+    standard: APIs.guru OpenAPI Directory
+    role: listed-in-directory
+    directory_provider: listennotes.com
+    matched_domain: listennotes.com
+    matched_by: domain
+    apis_listed: 1
+    version_count: 1
+    first_added: '2019-06-12'
+    last_updated: '2023-03-06'
+    origin_publisher_hosted: true
+    origin_hosts:
+    - listen-api.listennotes.com
+    categories:
+    - entertainment
+    own_openapi_files: 6
+    listings:
+    - key: listennotes.com
+      title: 'Listen API: Podcast Search, Directory, and Insights API'
+      preferred: '2.0'
+      versions: 1
+      swagger_url: https://api.apis.guru/v2/specs/listennotes.com/2.0/openapi.json
+      origin_url: https://listen-api.listennotes.com/api/v2/openapi.yaml
+      openapi_version: 3.0.1
+    signal_note: 'participation only: a community directory listing (APIs.guru collects definitions; the provider
+      did not file them). Signals: version_count, apis_listed, origin_publisher_hosted.'
+    detected_by: sweep-openapi-directory-apis-guru.py
+    detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null
