@@ -1589,3 +1589,9 @@ components:
       in: header
       name: X-ListenAPI-Key
       description: Get your API key at https://www.listennotes.com/api/dashboard/. Team keys act as the API admin.
+x-provenance:
+  method: harvested
+  publisher: Listen Notes
+  source: https://listen-api.listennotes.com/api/v2/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
