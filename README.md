@@ -1,4 +1,4 @@
-# Listen Notes (listennotes)
+# Listen Notes
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,203 +64,157 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Listen Notes runs the largest podcast search engine and database, and exposes it as the Listen API - a simple, no-nonsense podcast search, directory, and insights REST API. It lets developers full-text search millions of podcasts and episodes by people, places, and topics; fetch podcast and episode metadata; browse best-podcasts charts, curated lists, and genres; retrieve podcast/episode recommendations; power typeahead autocomplete; and pull audience demographics and publisher-domain insights. The API is served at `https://listen-api.listennotes.com/api/v2` and authenticated with an `X-ListenAPI-Key` header, with FREE, PRO, and ENTERPRISE plans billed on a request basis.
+Listen Notes runs the largest podcast search engine and database, and exposes it as the Listen API - a simple, no-nonsense podcast search, directory, and insights REST API. It lets developers full-text search millions of podcasts and episodes by people, places, and topics; fetch podcast and episode metadata; browse best-podcasts charts, curated lists, and genres; retrieve podcast/episode recommendations; power typeahead autocomplete; and pull audience demographics and publisher-domain insights. The API is served at https://listen-api.listennotes.com/api/v2 and authenticated with an X-ListenAPI-Key header, with FREE, PRO, and ENTERPRISE plans billed on a request basis.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/listennotes/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/listennotes/refs/heads/main/apis.yml)
+**Areas:** Podcasts · Podcast Search · Podcast Directory · Search · Audio · Media · Podcast Insights
 
-## Tags
+## Listen Notes on APIs.io
 
-- Podcasts
-- Podcast Search
-- Podcast Directory
-- Search
-- Audio
-- Media
-- Podcast Insights
+Everything profiled for Listen Notes is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/listennotes/](https://apis.io/providers/listennotes/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (6)
 
-- **Created:** 2026-07-03
-- **Modified:** 2026-07-03
+- [Listen Notes Insights API](https://apis.io/apis/listennotes/insights-api/) — Endpoints to get insights of podcasts, e.g., audience demographics.
+- [Listen Notes Playlist API](https://apis.io/apis/listennotes/playlist-api/) — Endpoints to fetch Listen Later playlists data.
+- [Listen Notes Podcaster API](https://apis.io/apis/listennotes/listennotes-podcaster-api-api/) — Endpoints to improve the podcast database.
+- [Listen Notes Search API](https://apis.io/apis/listennotes/listennotes-search-api-api/) — Endpoints to search podcasts and episodes.
+- [Listen Notes Directory API](https://apis.io/apis/listennotes/listennotes-directory-api-api/) — Endpoints to fetch podcasts, episodes, charts, and reference data.
+- [Listen Notes Listen API: Podcast Search, Directory, And Insights API](https://apis.io/apis/listennotes/listennotes-listen-api-podcast-search-directory-and-insights-api-api/) — The Listen API: Podcast Search, Directory, And Insights API API from Listen Notes — 0 operation(s) for listen api: podcast search, directory, and insights api.
 
-## APIs
+### Published properties
 
-### Listen Notes Search API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Full-text search across episodes, podcasts, and curated lists by people, places, or topics, with rich filters (genre, language, region, length, publish date, episode count, update frequency). Includes searching individual episodes by title and spell-checking a search term.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Listennotes Webhooks](https://apis.io/asyncapis/listennotes/listennotes-webhooks/)
 
-- Search
-- Full Text Search
-- Podcasts
-- Episodes
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [Documentation](https://www.listennotes.com/api/docs/)
-- [API Reference](https://www.listennotes.com/api/docs/)
-- [OpenAPI](openapi/listennotes-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/listennotes.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/listennotes.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Listennotes Agentic Access](https://apis.io/agentic-access/listennotes/listennotes-agentic-access/)
 
-### Listen Notes Typeahead API
+#### JSON-LD (1)
 
-Typeahead search that suggests search terms, podcasts, and genres as a user types - ideal for building autocomplete boxes for podcast search interfaces.
+Linked-data contexts for the provider's vocabulary.
 
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
+- [Listennotes Context](https://apis.io/jsonld/listennotes/listennotes-context/)
 
-#### Tags
+#### Collections (6)
 
-- Typeahead
-- Autocomplete
-- Search
+Postman and Open Collection request collections.
 
-### Listen Notes Trending & Related Searches API
+- [Listen API (Listen Notes)](https://apis.io/collections/listennotes/open-listennotes/)
+- [Listen API: Podcast Search, Directory, and Insights Directory API API](https://apis.io/collections/listennotes/open-listennotes-directory-api-api/)
+- [Listen API: Podcast Search, Directory, and Insights Directory API Insights API API](https://apis.io/collections/listennotes/open-listennotes-insights-api-api/)
+- [Listen API: Podcast Search, Directory, and Insights Directory API Playlist API API](https://apis.io/collections/listennotes/open-listennotes-playlist-api-api/)
+- [Listen API: Podcast Search, Directory, and Insights Directory API Podcaster API API](https://apis.io/collections/listennotes/open-listennotes-podcaster-api-api/)
+- [Listen API: Podcast Search, Directory, and Insights Directory API Search API API](https://apis.io/collections/listennotes/open-listennotes-search-api-api/)
 
-Fetch trending search terms across the platform and related search terms for a given query, useful for surfacing popular topics and expanding discovery.
+#### Overlays (1)
 
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
+OpenAPI overlays, including conversational phrasing for each operation.
 
-#### Tags
+- [Listennotes Openapi Overlay](https://apis.io/overlays/listennotes/listennotes-openapi-overlay/)
 
-- Trending
-- Related Searches
-- Search
+#### Governance rules (1)
 
-### Listen Notes Podcasts API
+Spectral rulesets for the provider's contracts.
 
-Fetch detailed metadata and paginated episodes for a podcast by id, batch fetch basic metadata for multiple podcasts by id, and pull a random podcast episode (Just Listen) for serendipitous discovery.
+- [Listen Notes API Rules](https://apis.io/rules/listennotes/listennotes-rules/)
 
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
+#### Security (2)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- Podcasts
-- Metadata
-- Directory
+- [Listennotes Authentication](https://apis.io/security/listennotes/listennotes-authentication/)
+- [Listennotes Domain Security](https://apis.io/security/listennotes/listennotes-domain-security/)
 
-### Listen Notes Episodes API
+#### Plans and pricing (1)
 
-Fetch detailed metadata for a single episode by id, and batch fetch basic metadata for multiple episodes by id in one request.
+Published plans, tiers and prices.
 
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
+- [Listennotes Plans Pricing](https://apis.io/plans/listennotes/listennotes-plans-pricing/)
 
-#### Tags
+#### Rate limits (1)
 
-- Episodes
-- Metadata
-- Directory
+Published request limits.
 
-### Listen Notes Best Podcasts API
+- [Listennotes Rate Limits](https://apis.io/rate-limits/listennotes/listennotes-rate-limits/)
 
-Fetch curated best-podcasts charts by genre, region, publisher region, and language - the editorial and popularity-ranked lists that power podcast discovery experiences.
+#### FinOps (1)
 
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
+What the API costs to run, by operation.
 
-#### Tags
+- [Listennotes Finops](https://apis.io/finops/listennotes/listennotes-finops/)
 
-- Best Podcasts
-- Charts
-- Directory
+## Where to find this API
 
-### Listen Notes Curated Lists API
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-Fetch paginated curated lists of podcasts hand-assembled around themes and topics from around the web, and retrieve the podcasts inside a specific curated list by id.
-
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
-
-#### Tags
-
-- Curated Lists
-- Recommendations
-- Directory
-
-### Listen Notes Playlists API
-
-Fetch your Listen Later playlists and the items (episodes or podcasts) inside a specific playlist by id, letting apps read the playlists a user builds on Listen Notes.
-
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
-
-#### Tags
-
-- Playlists
-- Listen Later
-- Directory
-
-### Listen Notes Genres, Regions & Languages API
-
-Fetch the reference vocabularies used across the API - the full podcast genre taxonomy, the supported countries/regions for best-podcasts charts, and the supported podcast languages.
-
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
-
-#### Tags
-
-- Genres
-- Regions
-- Languages
-
-### Listen Notes Recommendations API
-
-Fetch similar-content recommendations for a given podcast or a given episode, powering "you might also like" discovery surfaces.
-
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
-
-#### Tags
-
-- Recommendations
-- Discovery
-- Directory
-
-### Listen Notes Podcast Audience Insights API
-
-Fetch audience demographics and insights for a podcast by id, and list the podcasts associated with a publisher's domain name - the analytics surface for understanding a show's reach and a publisher's catalog.
-
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
-
-#### Tags
-
-- Insights
-- Audience
-- Demographics
-
-### Listen Notes Podcaster API
-
-Endpoints for podcasters to improve the Listen Notes database - submit a podcast by RSS URL, force a refresh of a podcast's RSS feed, and request removal of a podcast.
-
-- **Human URL:** [https://www.listennotes.com/api/docs/](https://www.listennotes.com/api/docs/)
-- **Base URL:** `https://listen-api.listennotes.com/api/v2`
-
-#### Tags
-
-- Podcaster
-- Submit
-- RSS
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/ListenNotes)
-- [LinkedIn](https://www.linkedin.com/company/listen-notes)
 - [Website](https://www.listennotes.com/api/)
 - [Documentation](https://www.listennotes.com/api/docs/)
-- [Plans](plans/listennotes-plans-pricing.yml)
-- [Rate Limits](rate-limits/listennotes-rate-limits.yml)
-- [Fin Ops](finops/listennotes-finops.yml)
+- [Pricing](https://www.listennotes.com/api/pricing/)
+- [Support](https://www.listennotes.com/help/)
+- [Blog](https://www.listennotes.com/blog/)
+- [Terms of service](https://www.listennotes.com/terms/)
+- [Privacy policy](https://www.listennotes.com/privacy/)
+- [GitHub](https://github.com/ListenNotes)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 47.9** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 69.1 |
+| Contract governance | 22.0 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 45.8 |
+| Access clarity | 39.5 |
+
+**Agent readiness 30.7** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/listennotes/](https://apis.io/providers/listennotes/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Listen Notes: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/listennotes/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
